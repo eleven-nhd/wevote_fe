@@ -3,6 +3,8 @@ import DashboardPage from "../pages/dashboard";
 import RolePage from "../pages/admin/role";
 import PrivateRoute from "./ProtectedRouter.tsx";
 import UserPage from "../pages/admin/user";
+import VotePage from "../pages/vote";
+import CampaignPage from "../pages/campaign";
 
 export const MainRouter = {
     path: "/page",
@@ -15,5 +17,7 @@ export const MainRouter = {
         { path: "/page/dashboard", element: <DashboardPage /> },
         { path: "/page/role", element: <RolePage /> },
         { path: "/page/user", element: <UserPage /> },
+        { path: "/page/vote", element: <VotePage /> },
+        { path: "/page/campaign", element: <CampaignPage /> },
     ],
 };

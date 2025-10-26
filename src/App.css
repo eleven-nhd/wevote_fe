@@ -29,6 +29,12 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+.ant-input-affix-wrapper:hover{
+  border: 1px solid var(--primary) !important;
+}
+.ant-select-selector:hover {
+  border: 1px solid var(--primary) !important;
+}
 
 .primary-text{
   color: var(--primary);
@@ -96,6 +102,9 @@ body {
 .ant-checkbox-checked .ant-checkbox-inner {
   background-color: var(--primary-bold) !important;
   border-color: var(--primary) !important;
+}
+.ant-form-item{
+  margin-bottom: 8px !important;
 }
 
 

@@ -2,6 +2,13 @@
 import { createBaseCrudSlice } from "./baseCrudSlice";
 import {UsersService} from "../api/services/UsersService.ts";
 
+export interface UserProfile {
+    userId: string;
+    email: string;
+    roleId: string;
+    role: string;
+}
+
 const { reducer, actions } = createBaseCrudSlice<any>({
     name: "user",
     fetchPage: async (input) => {

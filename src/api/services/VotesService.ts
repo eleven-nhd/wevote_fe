@@ -1,5 +1,6 @@
 import {
   CreateVoteDto,
+  PageRequestDto,
   UpdateVoteDto,
   IList,
   List,
@@ -24,7 +25,7 @@ export class VotesService {
   /**
    *
    */
-  static votes(
+  static create(
     params: {
       /** requestBody */
       body?: CreateVoteDto;
@@ -32,7 +33,7 @@ export class VotesService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/votes';
+      let url = basePath + '/api/votes/create';
 
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
@@ -46,11 +47,21 @@ export class VotesService {
   /**
    *
    */
-  static votes1(options: IRequestOptions = {}): Promise<any> {
+  static getPage(
+    params: {
+      /** requestBody */
+      body?: PageRequestDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/votes';
+      let url = basePath + '/api/votes/get-page';
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
 
       axios(configs, resolve, reject);
     });
@@ -58,7 +69,7 @@ export class VotesService {
   /**
    *
    */
-  static votes2(
+  static getById(
     params: {
       /**  */
       id: string;
@@ -66,7 +77,7 @@ export class VotesService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/votes/{id}';
+      let url = basePath + '/api/votes/get-by-id/{id}';
       url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
@@ -77,7 +88,7 @@ export class VotesService {
   /**
    *
    */
-  static votes3(
+  static update(
     params: {
       /**  */
       id: string;
@@ -87,7 +98,7 @@ export class VotesService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/votes/{id}';
+      let url = basePath + '/api/votes/update/{id}';
       url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
@@ -106,7 +117,7 @@ export class VotesService {
   /**
    *
    */
-  static votes4(
+  static remove(
     params: {
       /**  */
       id: string;
@@ -114,7 +125,7 @@ export class VotesService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/votes/{id}';
+      let url = basePath + '/api/votes/remove/{id}';
       url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);

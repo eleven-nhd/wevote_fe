@@ -1,5 +1,6 @@
 import {
   CreateCampaignDto,
+  PageRequestDto,
   UpdateCampaignDto,
   IList,
   List,
@@ -24,7 +25,7 @@ export class CampaignsService {
   /**
    *
    */
-  static campaigns(
+  static create(
     params: {
       /** requestBody */
       body?: CreateCampaignDto;
@@ -32,7 +33,7 @@ export class CampaignsService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns';
+      let url = basePath + '/api/campaigns/create';
 
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
@@ -46,11 +47,21 @@ export class CampaignsService {
   /**
    *
    */
-  static campaigns1(options: IRequestOptions = {}): Promise<any> {
+  static getPage(
+    params: {
+      /** requestBody */
+      body?: PageRequestDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns';
+      let url = basePath + '/api/campaigns/get-page';
 
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
 
       axios(configs, resolve, reject);
     });
@@ -58,7 +69,7 @@ export class CampaignsService {
   /**
    *
    */
-  static campaigns2(
+  static getById(
     params: {
       /**  */
       id: string;
@@ -66,7 +77,7 @@ export class CampaignsService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/{id}';
+      let url = basePath + '/api/campaigns/get-by-id/{id}';
       url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
@@ -77,7 +88,7 @@ export class CampaignsService {
   /**
    *
    */
-  static campaigns3(
+  static update(
     params: {
       /**  */
       id: string;
@@ -87,7 +98,7 @@ export class CampaignsService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/{id}';
+      let url = basePath + '/api/campaigns/update/{id}';
       url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
@@ -106,7 +117,7 @@ export class CampaignsService {
   /**
    *
    */
-  static campaigns4(
+  static remove(
     params: {
       /**  */
       id: string;
@@ -114,10 +125,22 @@ export class CampaignsService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/{id}';
+      let url = basePath + '/api/campaigns/remove/{id}';
       url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static dataSelect(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/campaigns/data-select';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       axios(configs, resolve, reject);
     });

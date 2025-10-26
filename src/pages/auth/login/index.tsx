@@ -6,6 +6,8 @@ import {AuthService} from "../../../api/services/AuthService";
 import "../style.css";
 import {useAuth} from "../../../core/context/authContext.ts";
 import {useNavigate} from "react-router";
+import {setCookie} from "../../../core/utils/cookieUtil.ts";
+import type {UserProfile} from "../../../stores/userSlice.ts";
 
 export default function LoginPage() {
     const [loginForm] = Form.useForm();
@@ -21,13 +23,17 @@ export default function LoginPage() {
 
     const handleLogin = async () => {
         try {
-            await  loginForm.validateFields();
+            await loginForm.validateFields();
             await AuthService.login({
                 body: {
                     ...loginForm.getFieldsValue()
                 },
             }).then((res: any) => {
                 login(res.access_token);
+            });
+            await AuthService.profile().then((res: UserProfile) => {
+                setCookie("userId", res.userId);
+                setCookie("email", res.email);
                 navigate("/page/dashboard");
             });
 
