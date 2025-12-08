@@ -5,13 +5,18 @@ import App from './App.tsx'
 import {serviceOptions} from "./api/services/index.defs.ts";
 import authInterceptor from "./core/interceptors/auth.interceptor.ts";
 import { Provider } from "react-redux";
-import {store} from "./stores";
+import {persistor, store} from "./stores";
+import {ToastContainer} from "react-toastify";
+import {PersistGate} from "redux-persist/integration/react";
 
 serviceOptions.axios = authInterceptor;
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
       <Provider store={store}>
-          <App />
+          <PersistGate loading={null} persistor={persistor}>
+              <App />
+          </PersistGate>
       </Provider>
+      <ToastContainer />
   </StrictMode>,
 )

@@ -7,6 +7,7 @@ const router = createBrowserRouter([
     MainRouter,
     AuthRouter,
     { path: "*", element: <NotFoundPage /> },
+
 ]);
 
 export default router;

@@ -1,6 +1,8 @@
 // src/store/baseCrudSlice.ts
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type {PageRequestDto} from "../api/services/index.defs.ts";
+import type {CommonResultDto} from "../core/components/dto/commonResultDto.ts";
+import {toast} from "react-toastify";
 
 interface BaseState<T> {
     list: T[];
@@ -21,9 +23,9 @@ export const createBaseCrudSlice = <T>({
                                        }: {
     name: string;
     fetchPage: (params: PageRequestDto) => Promise<{ data: T[]; total: number }>;
-    createItem: (data: Partial<T>) => Promise<void>;
-    updateItem: (id: string, data: Partial<T>) => Promise<void>;
-    deleteItem: (id: string) => Promise<void>;
+    createItem: (data: Partial<T>) => Promise<CommonResultDto<any>>;
+    updateItem: (id: string, data: Partial<T>) => Promise<CommonResultDto<any>>;
+    deleteItem: (id: string) => Promise<CommonResultDto<any>>;
 }) => {
     const initialState: BaseState<T> = {
         list: [],
@@ -40,16 +42,33 @@ export const createBaseCrudSlice = <T>({
     });
 
 
-    const createData = createAsyncThunk(`${name}/create`, async (data: Partial<T>, { dispatch, getState }: any) => {
-        await createItem(data);
-        const state = getState()[name];
-        dispatch(getPage({ page: state.page, keyword: state.keyword, size: state.pageSize }));
-    });
+    const createData = createAsyncThunk(
+        `${name}/create`,
+        async (data: Partial<T>, { dispatch, getState }: any) => {
+            const res = await createItem(data);
+
+            if (res.isSuccessful) {
+                toast.success(res.message ?? "Thêm mới thành công!");
+            } else {
+                toast.error(res.message ?? "Thêm mới thất bại");
+            }
+
+            const state = getState()[name];
+            dispatch(getPage({ page: state.page, keyword: state.keyword, size: state.pageSize }));
+        }
+    );
 
     const updateData = createAsyncThunk(
         `${name}/update`,
         async ({ id, data }: { id: string; data: Partial<T> }, { dispatch, getState }: any) => {
-            await updateItem(id, data);
+            const res = await updateItem(id, data);
+
+            if (res.isSuccessful) {
+                toast.success(res.message ?? "Updated successfully!");
+            } else {
+                toast.error(res.message ?? "Update failed!");
+            }
+
             const state = getState()[name];
             dispatch(getPage({ page: state.page, keyword: state.keyword, size: state.pageSize }));
         }
@@ -58,7 +77,14 @@ export const createBaseCrudSlice = <T>({
     const deleteData = createAsyncThunk(
         `${name}/delete`,
         async (id: string, { dispatch, getState }: any) => {
-            await deleteItem(id);
+            const res = await deleteItem(id);
+
+            if (res.isSuccessful) {
+                toast.success(res.message ?? "Deleted successfully!");
+            } else {
+                toast.error(res.message ?? "Delete failed!");
+            }
+
             const state = getState()[name];
             dispatch(getPage({ page: state.page, keyword: state.keyword, size: state.pageSize }));
         }

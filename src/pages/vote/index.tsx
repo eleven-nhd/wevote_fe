@@ -8,7 +8,7 @@ import {CreateOrUpdateVoteForm} from "./CreateOrUpdateForm.tsx";
 
 const VotePage = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { list, total, loading, page, keyword, pageSize } = useSelector((s: RootState) => s.role);
+    const { list, total, loading, page, keyword, pageSize } = useSelector((s: RootState) => s.vote);
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [editRecord, setEditRecord] = useState<any>(null);
@@ -68,7 +68,7 @@ const VotePage = () => {
                 }}
             >
                 <Form form={form} layout="vertical">
-                    <CreateOrUpdateVoteForm form={form}/>
+                    <CreateOrUpdateVoteForm />
                 </Form>
             </Modal>
         </>

@@ -1,7 +1,7 @@
 import {
-  CreateCampaignDto,
+  CreateTransactionDto,
   PageRequestDto,
-  UpdateCampaignDto,
+  UpdateTransactionDto,
   IList,
   List,
   IListResult,
@@ -17,7 +17,7 @@ import {
   basePath
 } from './index.defs';
 
-export class CampaignsService {
+export class TransactionsService {
   /** Generate by swagger-axios-codegen */
   // @ts-nocheck
   /* eslint-disable */
@@ -28,12 +28,12 @@ export class CampaignsService {
   static create(
     params: {
       /** requestBody */
-      body?: CreateCampaignDto;
+      body?: CreateTransactionDto;
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/create';
+      let url = basePath + '/api/transactions/create';
 
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
@@ -55,7 +55,7 @@ export class CampaignsService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/get-page';
+      let url = basePath + '/api/transactions/get-page';
 
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
@@ -77,7 +77,7 @@ export class CampaignsService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/get-by-id/{id}';
+      let url = basePath + '/api/transactions/get-by-id/{id}';
       url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
@@ -93,12 +93,12 @@ export class CampaignsService {
       /**  */
       id: string;
       /** requestBody */
-      body?: UpdateCampaignDto;
+      body?: UpdateTransactionDto;
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/update/{id}';
+      let url = basePath + '/api/transactions/update/{id}';
       url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
@@ -125,41 +125,10 @@ export class CampaignsService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/remove/{id}';
+      let url = basePath + '/api/transactions/remove/{id}';
       url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
-
-      axios(configs, resolve, reject);
-    });
-  }
-  /**
-   *
-   */
-  static dataSelect(options: IRequestOptions = {}): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/data-select';
-
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
-
-      axios(configs, resolve, reject);
-    });
-  }
-  /**
-   *
-   */
-  static getListVote(
-    params: {
-      /**  */
-      campaignId: string;
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + '/api/campaigns/get-list-vote/{campaignId}';
-      url = url.replace('{campaignId}', params['campaignId'] + '');
-
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       axios(configs, resolve, reject);
     });

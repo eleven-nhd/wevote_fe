@@ -5,14 +5,17 @@ import {
     MenuUnfoldOutlined,
     LogoutOutlined,
     SettingOutlined,
-    GroupOutlined
+    GroupOutlined,
+    ClusterOutlined
 } from "@ant-design/icons";
 import {Button, Menu, Layout, Dropdown} from 'antd';
 import {useState} from "react";
 import {Link, useNavigate} from "react-router";
-import {deleteCookie, getCookie} from "../utils/cookieUtil.ts";
+import {deleteCookie} from "../utils/cookieUtil.ts";
 import {Outlet} from "react-router-dom";
 import "./style.css";
+import {useDispatch, useSelector} from "react-redux";
+import {clearUser} from "../../stores/sessionSlice.ts";
 
 
 const { Header, Sider, Content } = Layout;
@@ -20,17 +23,21 @@ const { Header, Sider, Content } = Layout;
 export default function MainLayout() {
     const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
-    const email = getCookie("email");
+    const dispatch = useDispatch();
+    const user = useSelector((state: any) => state.session);
+
     const handleLogout = () => {
+        dispatch(clearUser());
         deleteCookie("token");
-        deleteCookie("username");
         navigate("/login");
     };
-    const menuItems = [
-        { key: "/page/dashboard", label: <Link to="/page/dashboard">Dashboard</Link>, icon: <HomeOutlined /> },
+    const menuSaItem = [
         { key: "/page/user", label: <Link to="/page/user">Người dùng</Link>, icon: <UserOutlined /> },
         { key: "/page/role", label: <Link to="/page/role">Vai trò</Link>, icon: <SettingOutlined /> },
-        { key: "/page/vote", label: <Link to="/page/vote">Vote</Link>, icon: <GroupOutlined /> },
+    ]
+    const menuItems = [
+        { key: "/page/dashboard", label: <Link to="/page/dashboard">Dashboard</Link>, icon: <HomeOutlined /> },
+        { key: "/page/vote", label: <Link to="/page/vote">Vote</Link>, icon: <ClusterOutlined /> },
         { key: "/page/campaign", label: <Link to="/page/campaign">Campaign</Link>, icon: <GroupOutlined /> },
     ];
     const userMenu = {
@@ -58,7 +65,7 @@ export default function MainLayout() {
                 <Menu
                     className={"menu-app"}
                     mode="inline"
-                    items={menuItems}
+                    items={user.role == "sa" ? menuSaItem : menuItems}
                 />
             </Sider>
 
@@ -73,7 +80,7 @@ export default function MainLayout() {
 
                     <Dropdown menu={userMenu} placement="bottomRight">
                         <Button type="text" icon={<UserOutlined />}>
-                            {email}
+                            {user.email}
                         </Button>
                     </Dropdown>
                 </Header>

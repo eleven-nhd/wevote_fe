@@ -2,7 +2,6 @@ import {
     Button,
     Col,
     Form,
-    type FormInstance,
     Input,
     InputNumber,
     Row,
@@ -10,24 +9,12 @@ import {
     type SelectProps,
 } from "antd";
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
-import {useEffect} from "react";
 import "./style.css";
 import {UploadImage} from "../../core/components/ImageUpload.tsx";
 import BaseSelect from "../../core/components/BaseSelect.tsx";
 import {useSelectCampaign} from "../../core/select/campaignSelectOption.ts";
 
-export const CreateOrUpdateVoteForm = (props: {form: FormInstance}) => {
-    useEffect(() => {
-        props.form.setFieldsValue({
-            options: [
-                {
-                    point: 1,
-                    option: "Lựa chọn 1"
-                }
-            ]
-        })
-    })
-
+export const CreateOrUpdateVoteForm = () => {
     const options: SelectProps['options'] = [
         {
             value: "Bách khoa Hà nội",
@@ -60,16 +47,30 @@ export const CreateOrUpdateVoteForm = (props: {form: FormInstance}) => {
           </Col>
           <Col span={4}>
               <div className={"h-full flex items-center mt-3"}>
-                  <Form.Item name={"featureImage"}>
+                  <Form.Item name={"featureImage"} initialValue={"no image"}>
                       <UploadImage />
                   </Form.Item>
               </div>
           </Col>
-
+          <Col span={24}>
+              <Form.Item name="tags" label="Tags" >
+                  <Select
+                      mode="tags"
+                      style={{ width: '100%' }}
+                      placeholder="Nhập"
+                      options={options}
+                  />
+              </Form.Item>
+          </Col>
+          <Col span={24}>
+              <Form.Item name={"campaignId"} label={"Chiến dịch"}>
+                  <BaseSelect fetchOptions={useSelectCampaign}/>
+              </Form.Item>
+          </Col>
           <Col span={24}>
               <p>Danh sách lựa chọn</p>
               <div className={"option-container p-3 my-2"}>
-                  <Form.List name="options">
+                  <Form.List name="options" initialValue={[{point: 1, option: "Lựa chọn 1"}]}>
                       {(fields, { add, remove }) => (
                           <>
                               {fields.map(({ key, name, ...restField }) => (
@@ -109,21 +110,6 @@ export const CreateOrUpdateVoteForm = (props: {form: FormInstance}) => {
                       )}
                   </Form.List>
               </div>
-          </Col>
-          <Col span={24}>
-              <Form.Item name="tags" label="Tags" >
-                  <Select
-                      mode="tags"
-                      style={{ width: '100%' }}
-                      placeholder="Nhập"
-                      options={options}
-                  />
-              </Form.Item>
-          </Col>
-          <Col span={24}>
-              <Form.Item name={"campaignId"} label={"Chiến dịch"}>
-                  <BaseSelect fetchOptions={useSelectCampaign}/>
-              </Form.Item>
           </Col>
       </Row>
   )

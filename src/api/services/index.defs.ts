@@ -108,13 +108,10 @@ export interface CreateUserDto {
   description: string;
 
   /**  */
-  createdDate: Date;
-
-  /**  */
-  latestDate: Date;
-
-  /**  */
   roleId: string;
+
+  /**  */
+  password: string;
 }
 
 /** PageRequestDto */
@@ -138,13 +135,10 @@ export interface UpdateUserDto {
   description?: string;
 
   /**  */
-  createdDate?: Date;
-
-  /**  */
-  latestDate?: Date;
-
-  /**  */
   roleId?: string;
+
+  /**  */
+  password?: string;
 }
 
 /** CreateRoleDto */
@@ -171,6 +165,12 @@ export interface LoginDto {
   email: string;
 }
 
+/** RegisterDto */
+export interface RegisterDto {
+  /**  */
+  email: string;
+}
+
 /** CreateCampaignDto */
 export interface CreateCampaignDto {
   /**  */
@@ -190,9 +190,6 @@ export interface CreateCampaignDto {
 
   /**  */
   endTime: Date;
-
-  /**  */
-  userId: string;
 }
 
 /** UpdateCampaignDto */
@@ -214,9 +211,6 @@ export interface UpdateCampaignDto {
 
   /**  */
   endTime?: Date;
-
-  /**  */
-  userId?: string;
 }
 
 /** CreateVoteDto */
@@ -271,4 +265,28 @@ export interface UpdateVoteDto {
 
   /**  */
   createdDate?: Date;
+}
+
+/** CreateTransactionDto */
+export interface CreateTransactionDto {
+  /**  */
+  voterId: string;
+
+  /**  */
+  choose: number;
+
+  /**  */
+  voteId: string;
+}
+
+/** UpdateTransactionDto */
+export interface UpdateTransactionDto {
+  /**  */
+  voterId?: string;
+
+  /**  */
+  choose?: number;
+
+  /**  */
+  voteId?: string;
 }

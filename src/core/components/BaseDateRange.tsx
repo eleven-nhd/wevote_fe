@@ -29,8 +29,13 @@ const BaseDateRange: React.FC<BaseDateRangeProps> = ({
                                                          showTime = false,
                                                      }) => {
     useEffect(() => {
-        const start = dayjs().subtract(defaultDays, 'day').startOf('day');
-        const end = dayjs().endOf('day');
+        const values = form.getFieldsValue([startName, endName]);
+        const startValue = values[startName];
+        const endValue = values[endName];
+
+        const start = startValue ? dayjs(startValue) : dayjs().subtract(defaultDays, 'day').startOf('day');
+        const end = endValue ? dayjs(endValue) : dayjs().endOf('day');
+
         form.setFieldsValue({
             [startName]: start,
             [endName]: end,

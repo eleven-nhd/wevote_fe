@@ -3,10 +3,10 @@ import { createBaseCrudSlice } from "./baseCrudSlice";
 import {UsersService} from "../api/services/UsersService.ts";
 
 export interface UserProfile {
-    userId: string;
-    email: string;
-    roleId: string;
-    role: string;
+    userId: string | undefined;
+    email: string | undefined;
+    roleId: string | undefined;
+    role: string | undefined;
 }
 
 const { reducer, actions } = createBaseCrudSlice<any>({
@@ -19,13 +19,13 @@ const { reducer, actions } = createBaseCrudSlice<any>({
         };
     },
     createItem: async (data: any) => {
-        await UsersService.create({body: data});
+        return await UsersService.create({body: data});
     },
     updateItem: async (id, data) => {
-        await UsersService.update({ id: id, body: data});
+        return await UsersService.update({id: id, body: data});
     },
     deleteItem: async (id) => {
-        await UsersService.remove({id: id});
+        return await UsersService.remove({id: id});
     },
 });
 

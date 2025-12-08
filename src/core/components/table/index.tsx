@@ -1,5 +1,15 @@
-import {Table, Input, Space, Button, Popconfirm} from "antd";
+import {Table, Input, Button, Popconfirm, Dropdown} from "antd";
 import type { ColumnsType } from "antd/es/table";
+import {DeleteOutlined, EditOutlined, MoreOutlined} from "@ant-design/icons";
+import {type JSX, useState} from "react";
+
+export interface ActionPropItem {
+    label: string
+    key: string
+    icon: JSX.Element
+    onClick: () => void
+    danger?: undefined
+}
 
 interface Props<T> {
     columns: ColumnsType<T>;
@@ -11,9 +21,10 @@ interface Props<T> {
     pageSize?: number;
     onSearch: (keyword: string) => void;
     onPageChange: (page: number) => void;
-    onCreate?: () => void;
-    onEdit?: (record: T) => void;
-    onDelete?: (id: string) => void;
+    onCreate: () => void;
+    onEdit: (record: T) => void;
+    onDelete: (id: string) => void;
+    actionColumns?: (record: T) => ActionPropItem[];
 }
 
 export function BaseTableCrud<T extends { id: string }>({
@@ -29,21 +40,55 @@ export function BaseTableCrud<T extends { id: string }>({
                                                                      onCreate,
                                                                      onEdit,
                                                                      onDelete,
+                                                                     actionColumns,
                                                                  }: Props<T>) {
+
+    const [deleteId, setDeleteId] = useState<string | null>(null);
+
+    const showPopconfirm = (id: string) => setDeleteId(id);
+    const closePopconfirm = () => setDeleteId(null);
+
     const actionColumn: undefined | ColumnsType<T>[number] =
-        (onEdit || onDelete) && {
+        {
             title: "Thao tác",
             key: "action",
-            render: (_, record) => (
-                <Space>
-                    {onEdit && <Button onClick={() => onEdit(record)}>Sửa</Button>}
-                    {onDelete && (
-                        <Popconfirm title="Xóa bản ghi này?" onConfirm={() => onDelete(record.id)}>
-                            <Button danger>Xóa</Button>
-                        </Popconfirm>
-                    )}
-                </Space>
-            ),
+            render: (_, record) => {
+                let menuProps = {
+                    items: [
+                        {
+                            label: "Sửa",
+                            key: '1',
+                            icon: <EditOutlined/>,
+                            onClick: () => onEdit(record)
+                        },
+                        {
+                            label: "Xóa",
+                            key: '2',
+                            icon: <DeleteOutlined />,
+                            onClick: () => showPopconfirm(record._id),
+                            danger: true
+                        },
+                    ]
+                };
+                if(actionColumns?.length != null && actionColumns.length > 0) {
+                    menuProps.items.push(
+                        ...actionColumns(record)
+                    )
+                }
+                return <>
+                        <Dropdown menu={menuProps}>
+                            <Button icon={<MoreOutlined />}></Button>
+                        </Dropdown>
+                        <Popconfirm
+                            title="Xóa bản ghi này?"
+                            open={deleteId === record._id}
+                            onCancel={closePopconfirm}
+                            onConfirm={() => onDelete(record.id)}
+                            cancelText={"Đóng"}
+                            okText={"Đồng ý"}
+                        />
+                    </>
+            },
         } as ColumnsType<T>[number];
     return (
         <div>

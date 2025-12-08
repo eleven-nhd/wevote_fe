@@ -1,5 +1,6 @@
 import {
   LoginDto,
+  RegisterDto,
   IList,
   List,
   IListResult,
@@ -32,6 +33,28 @@ export class AuthService {
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/auth/login';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static register(
+    params: {
+      /** requestBody */
+      body?: RegisterDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/auth/register';
 
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 

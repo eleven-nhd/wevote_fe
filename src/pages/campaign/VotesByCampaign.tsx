@@ -1,0 +1,71 @@
+import {Breadcrumb, Button, Col, Divider, Input, QRCode, Row} from "antd";
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {CampaignsService} from "../../api/services/CampaignsService.ts";
+import FormItem from "antd/es/form/FormItem";
+import {ArrowLeftOutlined, HomeOutlined} from "@ant-design/icons";
+
+const ListVoteByCampaign = () => {
+    const navigate = useNavigate();
+    const backToCampaign = () => {
+      navigate(-1);
+    }
+    const [listVote, setListVote] = useState<any[]>([]);
+    const {id} = useParams();
+    useEffect(() => {
+        CampaignsService.getListVote({ campaignId: id as any }).then(res => {
+            setListVote(res)
+        })
+    }, [id]);
+
+    return (
+      <div className={"p-3"}>
+          <div className={"w-full flex justify-between"}>
+              <Breadcrumb
+                  style={{fontSize: "1rem", fontWeight: 500}}
+                  items={[
+                      {
+                          href: '',
+                          title: <HomeOutlined style={{fontSize: "1rem"}}/>,
+                      },
+                      {
+                          href: '/page/campaign',
+                          title: 'Chiến dịch',
+                      },
+                      {
+                          title: 'Danh sách vote',
+                      },
+                  ]}
+              />
+              <Button icon={<ArrowLeftOutlined />} onClick={backToCampaign}>Quay lại</Button>
+          </div>
+          <Divider />
+          <Row gutter={32}>
+              {
+                  listVote?.map((item: any) => (
+                      <Col span={12}>
+                          <Row gutter={16}>
+                              <Col span={6} style={{display: "flex", alignItems: "center", justifyContent: "start"}}>
+                                  <QRCode value="https://ant.design/" />
+                              </Col>
+                              <Col span={18}>
+                                  <FormItem label={"Tên"} layout="vertical">
+                                      <Input value={item?.name} readOnly style={{width: "100%"}}/>
+                                  </FormItem>
+                                  <FormItem label={"Mô tả"} layout="vertical">
+                                      <Input.TextArea value={item?.description} readOnly rows={3} style={{width: "100%"}}/>
+                                  </FormItem>
+                              </Col>
+                          </Row>
+                          <FormItem label={"Url"} >
+                              <Input value={"http://localhost:5173/page/campaign/" + id + "/" + item._id} readOnly style={{width: "100%"}}/>
+                          </FormItem>
+                      </Col>
+                  ))
+              }
+          </Row>
+      </div>
+    )
+}
+
+export default ListVoteByCampaign

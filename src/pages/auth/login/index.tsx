@@ -6,14 +6,16 @@ import {AuthService} from "../../../api/services/AuthService";
 import "../style.css";
 import {useAuth} from "../../../core/context/authContext.ts";
 import {useNavigate} from "react-router";
-import {setCookie} from "../../../core/utils/cookieUtil.ts";
 import type {UserProfile} from "../../../stores/userSlice.ts";
+import {useDispatch} from "react-redux";
+import {setUser} from "../../../stores/sessionSlice.ts";
 
 export default function LoginPage() {
     const [loginForm] = Form.useForm();
     const pass_w = useWatch('password', loginForm);
     const navigate = useNavigate();
     const { login } = useAuth();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         loginForm.setFieldsValue({
@@ -32,8 +34,12 @@ export default function LoginPage() {
                 login(res.access_token);
             });
             await AuthService.profile().then((res: UserProfile) => {
-                setCookie("userId", res.userId);
-                setCookie("email", res.email);
+                dispatch(setUser({
+                    userId: res.userId,
+                    email: res.email,
+                    role: res.role,
+                    roleId: res.roleId,
+                }));
                 navigate("/page/dashboard");
             });
 
@@ -81,10 +87,12 @@ export default function LoginPage() {
                         <Button type="primary" htmlType="submit" className={'w-full'}>
                             <LoginOutlined /> Đăng nhập
                         </Button>
-                        <Button type="default" className={'w-full mt-3'}>
-                            <FormOutlined /> Đăng ký tài khoản
-                        </Button>
                     </Form.Item>
+                    <Button type="default" className={'w-full mt-3'}
+                            onClick={() => {navigate('/register')}}
+                    >
+                        <FormOutlined /> Đăng ký tài khoản
+                    </Button>
                 </Form>
             </div>
         </div>

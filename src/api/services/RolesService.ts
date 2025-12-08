@@ -133,4 +133,16 @@ export class RolesService {
       axios(configs, resolve, reject);
     });
   }
+  /**
+   *
+   */
+  static dataSelect(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/roles/data-select';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      axios(configs, resolve, reject);
+    });
+  }
 }

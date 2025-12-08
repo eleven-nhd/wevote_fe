@@ -11,13 +11,13 @@ const { reducer, actions } = createBaseCrudSlice<any>({
         };
     },
     createItem: async (data: any) => {
-        await RolesService.create({body: data});
+        return await RolesService.create({body: data});
     },
     updateItem: async (id, data) => {
-        await RolesService.update({ id: id, body: data});
+        return await RolesService.update({id: id, body: data});
     },
     deleteItem: async (id) => {
-        await RolesService.remove({id: id});
+        return await RolesService.remove({id: id});
     },
 });
 

@@ -11,13 +11,13 @@ const { reducer, actions } = createBaseCrudSlice<any>({
         };
     },
     createItem: async (data: any) => {
-        await CampaignsService.create({body: data});
+        return await CampaignsService.create({body: data});
     },
     updateItem: async (id, data) => {
-        await CampaignsService.update({ id: id, body: data});
+        return await CampaignsService.update({ id: id, body: data});
     },
     deleteItem: async (id) => {
-        await CampaignsService.remove({id: id});
+        return await CampaignsService.remove({id: id});
     },
 });
 

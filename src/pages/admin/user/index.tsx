@@ -1,4 +1,4 @@
-import { Modal, Form, Input } from "antd";
+import { Modal, Form } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import type {AppDispatch, RootState} from "../../../stores";
 import {useEffect, useState} from "react";
@@ -6,6 +6,7 @@ import {userActions} from "../../../stores/userSlice.ts";
 import {BaseTableCrud} from "../../../core/components/table";
 import type {ColumnsType} from "antd/es/table";
 import DateUtil from "../../../core/utils/dateUtil.ts";
+import {CreateOrUpdateUserForm} from "./CreatorOrUpdateForm.tsx";
 
 export default function UserPage() {
     const dispatch = useDispatch<AppDispatch>();
@@ -38,15 +39,17 @@ export default function UserPage() {
         },
         {
             title: "Ngày tạo",
-            dataIndex: "createdDate",
-            key: "createdDate",
+            dataIndex: "creationTime",
+            key: "creationTime",
+            align: "center",
             render: _value => DateUtil.toFormat(_value, 'DD/MM/YYYY')
         },
         {
             title: "Cập nhật gần nhất",
-            dataIndex: "latestDate",
-            key: "latestDate",
-            render: _value => DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm')
+            dataIndex: "modificationTime",
+            key: "modificationTime",
+            align: "center",
+            render: _value => _value ? DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm') : "-"
         },
         {
             title: "Vai trò",
@@ -71,7 +74,8 @@ export default function UserPage() {
         <>
             <BaseTableCrud
                 columns={columns}
-                data={list}                total={total}
+                data={list}
+                total={total}
                 page={page}
                 keyword={keyword}
                 loading={loading}
@@ -97,12 +101,7 @@ export default function UserPage() {
                 }}
             >
                 <Form form={form} layout="vertical">
-                    <Form.Item name="email" label="Email" rules={[{ required: true, message: "Email bắt buộc nhập" }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item name="description" label="Mô tả" >
-                        <Input />
-                    </Form.Item>
+                    <CreateOrUpdateUserForm />
                 </Form>
             </Modal>
         </>
