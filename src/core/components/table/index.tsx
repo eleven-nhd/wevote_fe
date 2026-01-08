@@ -73,7 +73,7 @@ export function BaseTableCrud<T extends { id: string }>(
             key: "action",
             width: 200,
             align: "center",
-            render: (_, record) => {
+            render: (_, record: any) => {
                 let menuProps = {
                     items: [
                         {

@@ -8,6 +8,7 @@ import {CreateOrUpdateVoteForm} from "./CreateOrUpdateForm.tsx";
 import DateUtil from "../../core/utils/dateUtil.ts";
 import BaseSelect from "../../core/components/BaseSelect.tsx";
 import {useSelectCampaign} from "../../core/select/campaignSelectOption.ts";
+import {ColumnsType} from "antd/es/table";
 
 const VotePage = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +22,7 @@ const VotePage = () => {
         dispatch(voteActions.getPage({page: page, filters: filters, size: pageSize}));
     }, [page, filters, pageSize]);
 
-    const columns = [
+    const columns: ColumnsType = [
         { dataIndex: "_id", key: "_id", hidden: true },
         {
             title: "Tên vote",
@@ -64,7 +65,6 @@ const VotePage = () => {
         form.resetFields();
     };
 
-    // @ts-ignore
     return (
         <>
             <BaseTableCrud
