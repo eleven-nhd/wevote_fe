@@ -3,7 +3,7 @@ import {useWatch} from "antd/es/form/Form";
 import {useNavigate} from "react-router";
 import {useEffect} from "react";
 import {AuthService} from "../../../api/services/AuthService.ts";
-import {LoginOutlined} from "@ant-design/icons";
+import {ArrowLeftOutlined, LoginOutlined} from "@ant-design/icons";
 import "../style.css";
 
 export default function RegisterPage() {
@@ -70,6 +70,9 @@ export default function RegisterPage() {
                     </Form.Item>
 
                     <Form.Item>
+                        <Button className={'w-full mb-3'} onClick={() => {navigate("/login")}}>
+                            <ArrowLeftOutlined /> Quay lại
+                        </Button>
                         <Button type="primary" htmlType="submit" className={'w-full'}>
                             <LoginOutlined /> Đăng ký
                         </Button>

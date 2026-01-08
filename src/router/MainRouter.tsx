@@ -6,6 +6,8 @@ import UserPage from "../pages/admin/user";
 import VotePage from "../pages/vote";
 import CampaignPage from "../pages/campaign";
 import ListVoteByCampaign from "../pages/campaign/VotesByCampaign.tsx";
+import TransactionStatistics from "../pages/campaign/TransactionStatistics.tsx";
+import TransactionPage from "../pages/transaction";
 
 export const MainRouter = {
     path: "/page",
@@ -21,5 +23,7 @@ export const MainRouter = {
         { path: "/page/vote", element: <VotePage /> },
         { path: "/page/campaign", element: <CampaignPage /> },
         { path: "/page/campaign/:id", element: <ListVoteByCampaign/>},
+        { path: "/page/campaign/statistics/:id", element: <TransactionStatistics/>},
+        { path: "/page/transaction", element: <TransactionPage /> },
     ],
 };

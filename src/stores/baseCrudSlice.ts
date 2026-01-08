@@ -1,26 +1,31 @@
-// src/store/baseCrudSlice.ts
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type {PageRequestDto} from "../api/services/index.defs.ts";
 import type {CommonResultDto} from "../core/components/dto/commonResultDto.ts";
 import {toast} from "react-toastify";
+import type {PageRequestDto} from "../api/services/index.defs.ts";
+
+interface FilterState {
+    keyword?: string;
+    [key: string]: any;
+}
 
 interface BaseState<T> {
     list: T[];
     total: number;
     loading: boolean;
     page: number;
-    keyword: string;
+    filters: FilterState;
     pageSize: number;
     error?: string;
 }
 
-export const createBaseCrudSlice = <T>({
-                                           name,
-                                           fetchPage,
-                                           createItem,
-                                           updateItem,
-                                           deleteItem,
-                                       }: {
+export const createBaseCrudSlice = <T>(
+    {
+       name,
+       fetchPage,
+       createItem,
+       updateItem,
+       deleteItem,
+    }: {
     name: string;
     fetchPage: (params: PageRequestDto) => Promise<{ data: T[]; total: number }>;
     createItem: (data: Partial<T>) => Promise<CommonResultDto<any>>;
@@ -32,15 +37,17 @@ export const createBaseCrudSlice = <T>({
         total: 0,
         loading: false,
         page: 1,
-        keyword: "",
+        filters: {},
         pageSize: 10,
     };
 
-    const getPage = createAsyncThunk(`${name}/getPage`, async (params: PageRequestDto) => {
-        const res = await fetchPage(params);
-        return res;
-    });
-
+    const getPage = createAsyncThunk(
+        `${name}/getPage`,
+        async (params: PageRequestDto) => {
+            const res = await fetchPage(params);
+            return res;
+        }
+    );
 
     const createData = createAsyncThunk(
         `${name}/create`,
@@ -53,8 +60,7 @@ export const createBaseCrudSlice = <T>({
                 toast.error(res.message ?? "Thêm mới thất bại");
             }
 
-            const state = getState()[name];
-            dispatch(getPage({ page: state.page, keyword: state.keyword, size: state.pageSize }));
+            refreshPage(dispatch, getState()[name]);
         }
     );
 
@@ -69,8 +75,7 @@ export const createBaseCrudSlice = <T>({
                 toast.error(res.message ?? "Update failed!");
             }
 
-            const state = getState()[name];
-            dispatch(getPage({ page: state.page, keyword: state.keyword, size: state.pageSize }));
+            refreshPage(dispatch, getState()[name]);
         }
     );
 
@@ -85,20 +90,55 @@ export const createBaseCrudSlice = <T>({
                 toast.error(res.message ?? "Delete failed!");
             }
 
-            const state = getState()[name];
-            dispatch(getPage({ page: state.page, keyword: state.keyword, size: state.pageSize }));
+            refreshPage(dispatch, getState()[name]);
         }
     );
+
+    const applyFilters = createAsyncThunk(
+        `${name}/applyFilters`,
+        async (filters: FilterState, { dispatch, getState }: any) => {
+            dispatch(slice.actions.setFilters(filters));
+
+            const state = getState()[name];
+
+            dispatch(
+                getPage({
+                    page: state.page,
+                    size: state.pageSize,
+                    filters: state.filters,
+                })
+            );
+        }
+    );
+    const refreshPage = (dispatch: any, state: any) => {
+        dispatch(
+            getPage({
+                page: state.page,
+                size: state.pageSize,
+                filters: state.filters,
+            })
+        );
+    };
 
     const slice = createSlice({
         name,
         initialState,
         reducers: {
-            setKeyword(state, action) {
-                state.keyword = action.payload;
-            },
             setPage(state, action) {
                 state.page = action.payload;
+            },
+
+            setFilters(state, action) {
+                state.filters = {
+                    ...state.filters,
+                    ...action.payload,
+                };
+                state.page = 1;
+            },
+
+            resetFilters(state) {
+                state.filters = {};
+                state.page = 1;
             },
         },
         extraReducers: (builder) => {
@@ -138,6 +178,6 @@ export const createBaseCrudSlice = <T>({
 
     return {
         reducer: slice.reducer,
-        actions: { ...slice.actions, getPage, createData, updateData, deleteData },
+        actions: { ...slice.actions, getPage, applyFilters, createData, updateData, deleteData },
     };
 };

@@ -1,6 +1,7 @@
 import {
   CreateTransactionDto,
-  PageRequestDto,
+  ObjectId,
+  PageRequestTransactionDto,
   UpdateTransactionDto,
   IList,
   List,
@@ -50,7 +51,7 @@ export class TransactionsService {
   static getPage(
     params: {
       /** requestBody */
-      body?: PageRequestDto;
+      body?: PageRequestTransactionDto;
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<any> {

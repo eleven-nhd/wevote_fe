@@ -10,15 +10,15 @@ import {CreateOrUpdateUserForm} from "./CreatorOrUpdateForm.tsx";
 
 export default function UserPage() {
     const dispatch = useDispatch<AppDispatch>();
-    const { list, total, loading, page, keyword, pageSize } = useSelector((s: RootState) => s.user);
+    const { list, total, loading, page, filters, pageSize } = useSelector((s: RootState) => s.user);
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [editRecord, setEditRecord] = useState<any>(null);
     const [form] = Form.useForm();
 
     useEffect(() => {
-        dispatch(userActions.getPage({page: page, keyword: keyword, size: pageSize}));
-    }, [page, keyword, pageSize]);
+        dispatch(userActions.getPage({page: page, filters: filters, size: pageSize}));
+    }, [page, filters, pageSize]);
 
     const columns: ColumnsType<any> = [
         {
@@ -77,9 +77,9 @@ export default function UserPage() {
                 data={list}
                 total={total}
                 page={page}
-                keyword={keyword}
                 loading={loading}
-                onSearch={(kw) => dispatch(userActions.setKeyword(kw))}
+                onFilterChange={(kw) => dispatch(userActions.applyFilters(kw))}
+                onResetFilter={() => dispatch(userActions.resetFilters())}
                 onPageChange={(p) => dispatch(userActions.setPage(p))}
                 onCreate={() => setModalOpen(true)}
                 onEdit={(record) => {
@@ -94,6 +94,8 @@ export default function UserPage() {
                 title={editRecord ? "Sửa người dùng" : "Thêm người dùng"}
                 open={isModalOpen}
                 onOk={handleSubmit}
+                cancelText={"Đóng"}
+                okText={"Lưu"}
                 onCancel={() => {
                     setModalOpen(false);
                     setEditRecord(null);

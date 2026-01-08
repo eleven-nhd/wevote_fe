@@ -10,6 +10,7 @@ import {
     persistReducer,
     persistStore,
 } from "redux-persist";
+import {transactionReducer} from "./transactionSlice.ts";
 
 const persistConfig = {
     key: "root",
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
     role: roleReducer,
     vote: voteReducer,
     campaign: campaignReducer,
+    transaction: transactionReducer,
     session: sessionReducer
 });
 

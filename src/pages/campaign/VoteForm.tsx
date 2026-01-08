@@ -4,6 +4,11 @@ import {useParams} from "react-router-dom";
 import {getCookie, setCookie} from "../../core/utils/cookieUtil.ts";
 import {generateUUID} from "../../core/utils/commonUtil.ts";
 import {VotesService} from "../../api/services/VotesService.ts";
+import {TransactionsService} from "../../api/services/TransactionsService.ts";
+import {toast} from "react-toastify";
+import {SendOutlined} from "@ant-design/icons";
+import "./style.css"
+import dayjs from "dayjs";
 
 const VoteForm = () => {
     const {voteId} = useParams();
@@ -18,8 +23,26 @@ const VoteForm = () => {
             setVoteInfo(res);
         })
     }, [voteId]);
+
     const submitVote = () => {
-        console.log(form.getFieldsValue());
+        TransactionsService.create({
+            body: {
+                ...form.getFieldsValue(),
+                voterId: getCookie("voterId"),
+                voteId: voteInfo?._id,
+                campaignId: voteInfo?.campaignId?._id,
+            }
+        }).then(res => {
+            if(res){
+                toast.success(res.message ?? "Gửi bình chọn thành công");
+            } else {
+                toast.error("Gửi bình chọn thất bại");
+            }
+
+        }).catch(err => {
+            console.log(err)
+            toast.error(err?.response?.data?.message ?? "Gửi bình chọn thất bại");
+        })
     }
 
   return (
@@ -27,24 +50,37 @@ const VoteForm = () => {
           form={form}
           onFinish={submitVote}
       >
-          <h2>{voteInfo?.campaignId?.name}</h2>
-          <p>{voteInfo?.campaignId?.description}</p>
-          <p>{voteInfo?.name}</p>
-          <p>{voteInfo?.description}</p>
-          <Form.Item name={"choose"}>
-              <Radio.Group>
-                  <Row gutter={16}>
-                      {
-                          voteInfo?.options?.map((option: any, index: number) => (
-                              <Col span={24}>
-                                  <Radio value={index}>{option?.option}</Radio>
-                              </Col>
-                          ))
-                      }
-                  </Row>
-              </Radio.Group>
-          </Form.Item>
-          <Button type="primary" htmlType="submit">Submit</Button>
+          <div className={"w-full p-3 text-center"} style={{height:'100vh'}}>
+              <div className={"h-full vote-form"}>
+                  <h2 style={{fontSize: 24}} className={"primary-header-text"}>
+                      {voteInfo?.campaignId?.name}
+                  </h2>
+                  <p>{voteInfo?.campaignId?.description}</p>
+                  <img src={voteInfo?.featureImage} alt="avatar" height={80} width={80} style={{display: "inline"}} />
+                  <p style={{fontSize: 20, marginTop: 16}} className={"font-medium primary-bold-text"}>{voteInfo?.name}</p>
+                  <p>{voteInfo?.description}</p>
+                  <Form.Item name={"creationTime"} initialValue={dayjs()} hidden/>
+                  <div className={"mt-3"}>
+                      <Form.Item name={"choose"}>
+                          <Radio.Group>
+                              <Row gutter={16}>
+                                  {
+                                      voteInfo?.options?.map((option: any) => (
+                                          <Col span={24} className={"mt-2"}>
+                                              <Radio value={option?.point ?? 0}>
+                                                  <p className={"font-medium primary-bold-text"} style={{fontSize: 16}}>{option?.option}</p>
+                                              </Radio>
+                                          </Col>
+                                      ))
+                                  }
+                              </Row>
+                          </Radio.Group>
+                      </Form.Item>
+                  </div>
+
+                  <Button className={"mt-5"} type="primary" htmlType="submit" icon={<SendOutlined/>}>Gửi</Button>
+              </div>
+          </div>
       </Form>
   )
 }

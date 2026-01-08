@@ -1,9 +1,10 @@
-import {Breadcrumb, Button, Col, Divider, Input, QRCode, Row} from "antd";
+import {Button, Col, Input, QRCode, Row} from "antd";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {CampaignsService} from "../../api/services/CampaignsService.ts";
 import FormItem from "antd/es/form/FormItem";
-import {ArrowLeftOutlined, HomeOutlined} from "@ant-design/icons";
+import {ArrowLeftOutlined} from "@ant-design/icons";
+import {BaseBreadcrumb} from "../../components/BaseBreadcrumb.tsx";
 
 const ListVoteByCampaign = () => {
     const navigate = useNavigate();
@@ -20,26 +21,21 @@ const ListVoteByCampaign = () => {
 
     return (
       <div className={"p-3"}>
-          <div className={"w-full flex justify-between"}>
-              <Breadcrumb
-                  style={{fontSize: "1rem", fontWeight: 500}}
-                  items={[
-                      {
-                          href: '',
-                          title: <HomeOutlined style={{fontSize: "1rem"}}/>,
-                      },
-                      {
-                          href: '/page/campaign',
-                          title: 'Chiến dịch',
-                      },
-                      {
-                          title: 'Danh sách vote',
-                      },
-                  ]}
-              />
-              <Button icon={<ArrowLeftOutlined />} onClick={backToCampaign}>Quay lại</Button>
-          </div>
-          <Divider />
+          <BaseBreadcrumb
+              items={[
+                  {
+                      href: '/page/campaign',
+                      title: 'Chiến dịch',
+                  },
+                  {
+                      title: 'Danh sách vote',
+                  },
+              ]}
+              extraButton={
+                  <Button icon={<ArrowLeftOutlined />} onClick={backToCampaign}>Quay lại</Button>
+              }
+          />
+
           <Row gutter={32}>
               {
                   listVote?.map((item: any) => (

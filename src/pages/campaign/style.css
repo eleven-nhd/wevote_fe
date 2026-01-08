@@ -1,0 +1,13 @@
+.vote-form {
+  overflow: hidden;
+}
+
+.vote-form::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("../../../public/background.jpg") no-repeat center center / cover;
+  filter: blur(6px);
+  opacity: 0.7;
+  z-index: -1;
+}

@@ -6,7 +6,8 @@ import {
     LogoutOutlined,
     SettingOutlined,
     GroupOutlined,
-    ClusterOutlined
+    ClusterOutlined,
+    StockOutlined
 } from "@ant-design/icons";
 import {Button, Menu, Layout, Dropdown} from 'antd';
 import {useState} from "react";
@@ -38,7 +39,8 @@ export default function MainLayout() {
     const menuItems = [
         { key: "/page/dashboard", label: <Link to="/page/dashboard">Dashboard</Link>, icon: <HomeOutlined /> },
         { key: "/page/vote", label: <Link to="/page/vote">Vote</Link>, icon: <ClusterOutlined /> },
-        { key: "/page/campaign", label: <Link to="/page/campaign">Campaign</Link>, icon: <GroupOutlined /> },
+        { key: "/page/campaign", label: <Link to="/page/campaign">Chiến dịch</Link>, icon: <GroupOutlined /> },
+        { key: "/page/transaction", label: <Link to="/page/transaction">Thống kê</Link>, icon: <StockOutlined /> },
     ];
     const userMenu = {
         items: [

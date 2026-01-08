@@ -21,7 +21,7 @@ export const CreateOrUpdateCampaignForm = (props: {form: FormInstance}) => {
           </Col>
           <Col span={4}>
               <div className={"h-full flex items-center mt-3"}>
-                  <Form.Item name={"featureImage"} initialValue={"no image"}>
+                  <Form.Item name={"featureImage"}>
                       <UploadImage />
                   </Form.Item>
               </div>

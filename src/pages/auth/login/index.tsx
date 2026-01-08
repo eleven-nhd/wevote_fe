@@ -87,12 +87,12 @@ export default function LoginPage() {
                         <Button type="primary" htmlType="submit" className={'w-full'}>
                             <LoginOutlined /> Đăng nhập
                         </Button>
+                        <Button type="default" className={'w-full mt-3'}
+                                onClick={() => {navigate('/register')}}
+                        >
+                            <FormOutlined /> Đăng ký tài khoản
+                        </Button>
                     </Form.Item>
-                    <Button type="default" className={'w-full mt-3'}
-                            onClick={() => {navigate('/register')}}
-                    >
-                        <FormOutlined /> Đăng ký tài khoản
-                    </Button>
                 </Form>
             </div>
         </div>

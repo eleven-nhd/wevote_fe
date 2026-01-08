@@ -9,7 +9,7 @@ const NotFoundPage = () => {
             title={"Lỗi"}
             subTitle={"Không tìm thấy trang"}
             extra={
-                <Button type="primary" onClick={() => navigate('/')}>
+                <Button type="primary" onClick={() => navigate('/page')}>
                    Quay lại
                 </Button>
             }

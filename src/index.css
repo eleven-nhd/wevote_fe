@@ -8,6 +8,16 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --background: #DDF4E7;
+  --foreground: #DDF4E7;
+  --primary: #187068;
+  --primary-bold: #13463d;
+  --secondary: #67AE6E;
+  --tertiary: #90C67C;
+  --extra: #E1EEBC;
+  --error: #F44336;
+  --success: #28a745;
+  --form-background: #DDF4E7;
 }
 
 a {

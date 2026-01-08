@@ -164,4 +164,23 @@ export class CampaignsService {
       axios(configs, resolve, reject);
     });
   }
+  /**
+   *
+   */
+  static getListVoteTransaction(
+    params: {
+      /**  */
+      campaignId: string;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/campaigns/get-list-vote-transaction/{campaignId}';
+      url = url.replace('{campaignId}', params['campaignId'] + '');
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      axios(configs, resolve, reject);
+    });
+  }
 }

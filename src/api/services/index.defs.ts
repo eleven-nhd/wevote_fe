@@ -99,6 +99,9 @@ export class PagedResultDto<T = any> implements IPagedResult<T> {
 // customer definition
 // empty
 
+/** ObjectId */
+export interface ObjectId {}
+
 /** CreateUserDto */
 export interface CreateUserDto {
   /**  */
@@ -108,7 +111,7 @@ export interface CreateUserDto {
   description: string;
 
   /**  */
-  roleId: string;
+  roleId: ObjectId;
 
   /**  */
   password: string;
@@ -117,7 +120,7 @@ export interface CreateUserDto {
 /** PageRequestDto */
 export interface PageRequestDto {
   /**  */
-  keyword: string;
+  filters: object;
 
   /**  */
   page: number;
@@ -135,7 +138,7 @@ export interface UpdateUserDto {
   description?: string;
 
   /**  */
-  roleId?: string;
+  roleId?: ObjectId;
 
   /**  */
   password?: string;
@@ -234,7 +237,7 @@ export interface CreateVoteDto {
   tags: string[];
 
   /**  */
-  campaignId: string;
+  campaignId: ObjectId;
 
   /**  */
   createdDate: Date;
@@ -261,7 +264,7 @@ export interface UpdateVoteDto {
   tags?: string[];
 
   /**  */
-  campaignId?: string;
+  campaignId?: ObjectId;
 
   /**  */
   createdDate?: Date;
@@ -276,7 +279,25 @@ export interface CreateTransactionDto {
   choose: number;
 
   /**  */
-  voteId: string;
+  voteId: ObjectId;
+
+  /**  */
+  campaignId: ObjectId;
+
+  /**  */
+  creationTime: Date;
+}
+
+/** PageRequestTransactionDto */
+export interface PageRequestTransactionDto {
+  /**  */
+  filters: object;
+
+  /**  */
+  page: number;
+
+  /**  */
+  size: number;
 }
 
 /** UpdateTransactionDto */
@@ -288,5 +309,11 @@ export interface UpdateTransactionDto {
   choose?: number;
 
   /**  */
-  voteId?: string;
+  voteId?: ObjectId;
+
+  /**  */
+  campaignId?: ObjectId;
+
+  /**  */
+  creationTime?: Date;
 }

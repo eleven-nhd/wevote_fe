@@ -24,9 +24,14 @@ const beforeUpload = (file: FileType) => {
     return isJpgOrPng && isLt2M;
 };
 
-export const UploadImage = () => {
+export const UploadImage = ({
+                                value,
+                                onChange,
+                            }: {
+    value?: string;
+    onChange?: (value: string) => void;
+}) => {
     const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState<string>();
 
 
     const customRequest: UploadProps['customRequest'] = async (options) => {
@@ -35,12 +40,14 @@ export const UploadImage = () => {
         formData.append('file', file as Blob);
 
         try {
-            const res = await CoreService.upload({file: formData.get('file')});
+            const res = await CoreService.upload({ file: formData.get('file') });
+            const imageUrl = `${import.meta.env.VITE_API_URL}/${res.filePath}`;
+
             message.success('Upload thành công');
-            setImageUrl(`${import.meta.env.VITE_API_URL}/${res.filePath}`);
+            onChange?.(imageUrl);
+
             onSuccess?.(res, file as any);
         } catch (err) {
-            console.error(err);
             message.error('Upload thất bại');
             onError?.(err as any);
         }
@@ -52,9 +59,8 @@ export const UploadImage = () => {
             return;
         }
         if (info.file.status === 'done') {
-            getBase64(info.file.originFileObj as FileType, (url) => {
+            getBase64(info.file.originFileObj as FileType, () => {
                 setLoading(false);
-                setImageUrl(url);
             });
         }
     };
@@ -76,8 +82,8 @@ export const UploadImage = () => {
             beforeUpload={beforeUpload}
             onChange={handleChange}
         >
-            {imageUrl ? (
-                <img draggable={false} src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+            {value ? (
+                <img draggable={false} src={value} alt="avatar" style={{ width: '100%' }} />
             ) : (
                 uploadButton
             )}

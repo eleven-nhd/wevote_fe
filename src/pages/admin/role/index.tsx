@@ -7,15 +7,15 @@ import {roleActions} from "../../../stores/roleSlice.ts";
 
 export default function RolePage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { list, total, loading, page, keyword, pageSize } = useSelector((s: RootState) => s.role);
+  const { list, total, loading, page, filters, pageSize } = useSelector((s: RootState) => s.role);
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [editRecord, setEditRecord] = useState<any>(null);
   const [form] = Form.useForm();
 
   useEffect(() => {
-    dispatch(roleActions.getPage({page: page, keyword: keyword, size: pageSize}));
-  }, [page, keyword, pageSize]);
+    dispatch(roleActions.getPage({page: page, filters: filters, size: pageSize}));
+  }, [page, filters, pageSize]);
 
   const columns = [
     { dataIndex: "_id", key: "_id", hidden: true },
@@ -42,9 +42,9 @@ export default function RolePage() {
             data={list}
             total={total}
             page={page}
-            keyword={keyword}
             loading={loading}
-            onSearch={(kw) => dispatch(roleActions.setKeyword(kw))}
+            onFilterChange={(kw) => dispatch(roleActions.applyFilters(kw))}
+            onResetFilter={() => dispatch(roleActions.resetFilters())}
             onPageChange={(p) => dispatch(roleActions.setPage(p))}
             onCreate={() => setModalOpen(true)}
             onEdit={(record) => {
@@ -59,6 +59,8 @@ export default function RolePage() {
             title={editRecord ? "Sửa vai trò" : "Thêm vai trò"}
             open={isModalOpen}
             onOk={handleSubmit}
+            cancelText={"Đóng"}
+            okText={"Lưu"}
             onCancel={() => {
               setModalOpen(false);
               setEditRecord(null);

@@ -7,20 +7,20 @@ import {campaignActions} from "../../stores/campainSlice.js";
 import {CreateOrUpdateCampaignForm} from "./CreateOrUpdateForm.tsx";
 import dayjs from "dayjs";
 import DateUtil from "../../core/utils/dateUtil.ts";
-import {BarChartOutlined} from "@ant-design/icons";
+import {BarChartOutlined, StockOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router";
 
 const CampaignPage = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { list, total, loading, page, keyword, pageSize } = useSelector((s: RootState) => s.campaign);
+    const { list, total, filters, loading, page, pageSize } = useSelector((s: RootState) => s.campaign);
     const navigate = useNavigate();
     const [isModalOpen, setModalOpen] = useState(false);
     const [editRecord, setEditRecord] = useState<any>(null);
     const [form] = Form.useForm();
 
     useEffect(() => {
-        dispatch(campaignActions.getPage({page: page, keyword: keyword, size: pageSize}));
-    }, [page, keyword, pageSize]);
+        dispatch(campaignActions.getPage({page: page, filters: filters, size: pageSize}));
+    }, [page, filters, pageSize]);
 
     const columns = [
         {
@@ -73,9 +73,15 @@ const CampaignPage = () => {
                 data={list}
                 total={total}
                 page={page}
-                keyword={keyword}
                 loading={loading}
-                onSearch={(kw) => dispatch(campaignActions.setKeyword(kw))}
+                breadcrumbs={[
+                    {
+                        href: '/page/campaign',
+                        title: 'Chiến dịch',
+                    },
+                ]}
+                onFilterChange={(kw) => dispatch(campaignActions.applyFilters(kw))}
+                onResetFilter={() => dispatch(campaignActions.resetFilters())}
                 onPageChange={(p) => dispatch(campaignActions.setPage(p))}
                 onCreate={() => setModalOpen(true)}
                 onEdit={(record) => {
@@ -90,11 +96,19 @@ const CampaignPage = () => {
                 onDelete={(id) => dispatch(campaignActions.deleteData(id))}
                 actionColumns={(record) => [
                     {
-                        label: "Chi tiết",
+                        label: "Danh sách vote",
                         key: "detail",
                         icon: <BarChartOutlined />,
                         onClick: () => {
                             navigate("/page/campaign/" + record._id)
+                        },
+                    },
+                    {
+                        label: "Thống kê vote",
+                        key: "statistics",
+                        icon: <StockOutlined />,
+                        onClick: () => {
+                            navigate("/page/campaign/statistics/" + record._id)
                         },
                     },
                 ] as ActionPropItem[]}
@@ -103,8 +117,11 @@ const CampaignPage = () => {
             <Modal
                 title={editRecord ? "Sửa chiến dịch" : "Thêm chiến dịch"}
                 width={800}
+                style={{top: 30}}
                 open={isModalOpen}
                 onOk={handleSubmit}
+                cancelText={"Đóng"}
+                okText={"Lưu"}
                 onCancel={() => {
                     setModalOpen(false);
                     setEditRecord(null);

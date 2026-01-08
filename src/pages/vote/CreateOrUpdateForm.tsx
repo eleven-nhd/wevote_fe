@@ -47,7 +47,7 @@ export const CreateOrUpdateVoteForm = () => {
           </Col>
           <Col span={4}>
               <div className={"h-full flex items-center mt-3"}>
-                  <Form.Item name={"featureImage"} initialValue={"no image"}>
+                  <Form.Item name={"featureImage"} >
                       <UploadImage />
                   </Form.Item>
               </div>
@@ -63,7 +63,7 @@ export const CreateOrUpdateVoteForm = () => {
               </Form.Item>
           </Col>
           <Col span={24}>
-              <Form.Item name={"campaignId"} label={"Chiến dịch"}>
+              <Form.Item name={"campaignId"} label={"Chiến dịch"} required>
                   <BaseSelect fetchOptions={useSelectCampaign}/>
               </Form.Item>
           </Col>

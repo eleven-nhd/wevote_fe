@@ -1,27 +1,55 @@
 import {useDispatch, useSelector} from "react-redux";
 import type {AppDispatch, RootState} from "../../stores";
 import {useEffect, useState} from "react";
-import {Form, Modal} from "antd";
+import {Col, Form, Modal} from "antd";
 import {BaseTableCrud} from "../../core/components/table";
 import {voteActions} from "../../stores/voteSlice.ts";
 import {CreateOrUpdateVoteForm} from "./CreateOrUpdateForm.tsx";
+import DateUtil from "../../core/utils/dateUtil.ts";
+import BaseSelect from "../../core/components/BaseSelect.tsx";
+import {useSelectCampaign} from "../../core/select/campaignSelectOption.ts";
 
 const VotePage = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { list, total, loading, page, keyword, pageSize } = useSelector((s: RootState) => s.vote);
+    const { list, total, loading, page, filters, pageSize } = useSelector((s: RootState) => s.vote);
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [editRecord, setEditRecord] = useState<any>(null);
     const [form] = Form.useForm();
 
     useEffect(() => {
-        dispatch(voteActions.getPage({page: page, keyword: keyword, size: pageSize}));
-    }, [page, keyword, pageSize]);
+        dispatch(voteActions.getPage({page: page, filters: filters, size: pageSize}));
+    }, [page, filters, pageSize]);
 
     const columns = [
         { dataIndex: "_id", key: "_id", hidden: true },
-        { title: "Tên vote", dataIndex: "name", key: "name" },
-        { title: "Mô tả", dataIndex: "description", key: "description" }
+        {
+            title: "Tên vote",
+            dataIndex: "name",
+            key: "name" ,
+            align: "center",
+            width: 300
+        },
+        {
+            title: "Chiến dịch",
+            key: "campaign",
+            align: "center",
+            width: 300,
+            render: (_value: any, record: any) => <p>{record.campaignId?.name}</p>
+        },
+        {
+            title: "Ngày tạo",
+            dataIndex: "creationTime",
+            key: "creationTime",
+            align: "center",
+            width: 300,
+            render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm')
+        },
+        {
+            title: "Mô tả",
+            dataIndex: "description",
+            key: "description",
+        },
     ];
 
     const handleSubmit = async () => {
@@ -36,6 +64,7 @@ const VotePage = () => {
         form.resetFields();
     };
 
+    // @ts-ignore
     return (
         <>
             <BaseTableCrud
@@ -43,14 +72,34 @@ const VotePage = () => {
                 data={list}
                 total={total}
                 page={page}
-                keyword={keyword}
                 loading={loading}
-                onSearch={(kw) => dispatch(voteActions.setKeyword(kw))}
+                breadcrumbs={[
+                    {
+                        href: '/page/vote',
+                        title: 'Vote',
+                    },
+                ]}
+                onFilterChange={(kw) => dispatch(voteActions.applyFilters(kw))}
+                onResetFilter={() => dispatch(voteActions.resetFilters())}
                 onPageChange={(p) => dispatch(voteActions.setPage(p))}
                 onCreate={() => setModalOpen(true)}
+                extraSearchFields={
+                    <Col span={4}>
+                        <Form.Item name={"campaignId"} >
+                            <BaseSelect
+                                fetchOptions={useSelectCampaign}
+                                placeholder={"Chọn chiến dịch"}
+                                style={{width: "100%"}}
+                            />
+                        </Form.Item>
+                    </Col>
+                }
                 onEdit={(record) => {
                     setEditRecord(record);
-                    form.setFieldsValue(record);
+                    form.setFieldsValue({
+                        ...record,
+                        campaignId: record.campaignId._id
+                    });
                     setModalOpen(true);
                 }}
                 onDelete={(id) => dispatch(voteActions.deleteData(id))}
@@ -59,8 +108,11 @@ const VotePage = () => {
             <Modal
                 title={editRecord ? "Sửa vote" : "Thêm vote"}
                 width={800}
+                style={{top: 30}}
                 open={isModalOpen}
                 onOk={handleSubmit}
+                cancelText={"Đóng"}
+                okText={"Lưu"}
                 onCancel={() => {
                     setModalOpen(false);
                     setEditRecord(null);
