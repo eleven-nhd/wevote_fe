@@ -63,7 +63,12 @@ export const CreateOrUpdateVoteForm = () => {
               </Form.Item>
           </Col>
           <Col span={24}>
-              <Form.Item name={"campaignId"} label={"Chiến dịch"} required>
+              <Form.Item
+                  name={"campaignId"}
+                  label={"Chiến dịch"}
+                  required
+                  rules={[{ required: true, message: "Chiến dịch bắt buộc nhập" }]}
+              >
                   <BaseSelect fetchOptions={useSelectCampaign}/>
               </Form.Item>
           </Col>

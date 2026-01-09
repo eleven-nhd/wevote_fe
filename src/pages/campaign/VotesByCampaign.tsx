@@ -42,7 +42,7 @@ const ListVoteByCampaign = () => {
                       <Col span={12}>
                           <Row gutter={16}>
                               <Col span={6} style={{display: "flex", alignItems: "center", justifyContent: "start"}}>
-                                  <QRCode value="https://ant.design/" />
+                                  <QRCode value={`${import.meta.env.VITE_API_URL}/page/campaign/${id}/${item._id}`} />
                               </Col>
                               <Col span={18}>
                                   <FormItem label={"Tên"} layout="vertical">
@@ -54,7 +54,7 @@ const ListVoteByCampaign = () => {
                               </Col>
                           </Row>
                           <FormItem label={"Url"} >
-                              <Input value={"http://localhost:5173/page/campaign/" + id + "/" + item._id} readOnly style={{width: "100%"}}/>
+                              <Input value={`${import.meta.env.VITE_API_URL}/page/campaign/${id}/${item._id}`} readOnly style={{width: "100%"}}/>
                           </FormItem>
                       </Col>
                   ))
