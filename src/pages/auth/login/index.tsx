@@ -9,6 +9,7 @@ import {useNavigate} from "react-router";
 import type {UserProfile} from "../../../stores/userSlice.ts";
 import {useDispatch} from "react-redux";
 import {setUser} from "../../../stores/sessionSlice.ts";
+import {toast} from "react-toastify";
 
 export default function LoginPage() {
     const [loginForm] = Form.useForm();
@@ -44,11 +45,12 @@ export default function LoginPage() {
             });
 
         } catch (err) {
-            console.error(err);
+            toast.error("Đăng nhập thất bại");
+            return;
         }
     };
-    const onFinishFailed: FormProps['onFinishFailed'] = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const onFinishFailed: FormProps['onFinishFailed'] = () => {
+        toast.error("Vui lòng kiểm tra lại thông tin");
     };
 
     return (
@@ -64,7 +66,7 @@ export default function LoginPage() {
                     autoComplete="off"
                 >
                     <div className={'flex justify-center w-full'}>
-                        <img className={'logo-login'} src={'public/logo.png'} />
+                        <img className={'logo-login'} src={'/logo.png'} />
                     </div>
 
                     <h1 className="primary-header-text">Đăng nhập</h1>

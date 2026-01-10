@@ -52,45 +52,62 @@ export const createBaseCrudSlice = <T>(
     const createData = createAsyncThunk(
         `${name}/create`,
         async (data: Partial<T>, { dispatch, getState }: any) => {
-            const res = await createItem(data);
+            try {
+                const res = await createItem(data);
 
-            if (res.isSuccessful) {
-                toast.success(res.message ?? "Thêm mới thành công!");
-            } else {
-                toast.error(res.message ?? "Thêm mới thất bại");
+                if (res.isSuccessful) {
+                    toast.success(res.message ?? "Thêm mới thành công!");
+                } else {
+                    toast.error(res.message ?? "Thêm mới thất bại");
+                }
+
+                refreshPage(dispatch, getState()[name]);
+            } catch(error) {
+                toast.error("Thêm mới thất bại");
+                return;
             }
 
-            refreshPage(dispatch, getState()[name]);
         }
     );
 
     const updateData = createAsyncThunk(
         `${name}/update`,
         async ({ id, data }: { id: string; data: Partial<T> }, { dispatch, getState }: any) => {
-            const res = await updateItem(id, data);
+            try {
+                const res = await updateItem(id, data);
 
-            if (res.isSuccessful) {
-                toast.success(res.message ?? "Updated successfully!");
-            } else {
-                toast.error(res.message ?? "Update failed!");
+                if (res.isSuccessful) {
+                    toast.success(res.message ?? "Updated successfully!");
+                } else {
+                    toast.error(res.message ?? "Update failed!");
+                }
+
+                refreshPage(dispatch, getState()[name]);
+            } catch(error) {
+                toast.error("Thêm mới thất bại");
+                return;
             }
 
-            refreshPage(dispatch, getState()[name]);
         }
     );
 
     const deleteData = createAsyncThunk(
         `${name}/delete`,
         async (id: string, { dispatch, getState }: any) => {
-            const res = await deleteItem(id);
+            try {
+                const res = await deleteItem(id);
 
-            if (res.isSuccessful) {
-                toast.success(res.message ?? "Deleted successfully!");
-            } else {
-                toast.error(res.message ?? "Delete failed!");
+                if (res.isSuccessful) {
+                    toast.success(res.message ?? "Deleted successfully!");
+                } else {
+                    toast.error(res.message ?? "Delete failed!");
+                }
+
+                refreshPage(dispatch, getState()[name]);
+            } catch(error) {
+                toast.error("Thêm mới thất bại");
+                return;
             }
-
-            refreshPage(dispatch, getState()[name]);
         }
     );
 

@@ -60,22 +60,25 @@ const VoteForm = () => {
                   <p style={{fontSize: 20, marginTop: 16}} className={"font-medium primary-bold-text"}>{voteInfo?.name}</p>
                   <p>{voteInfo?.description}</p>
                   <Form.Item name={"creationTime"} initialValue={dayjs()} hidden/>
-                  <div className={"mt-3"}>
-                      <Form.Item name={"choose"}>
-                          <Radio.Group>
-                              <Row gutter={16}>
-                                  {
-                                      voteInfo?.options?.map((option: any) => (
-                                          <Col span={24} className={"mt-2"}>
-                                              <Radio value={option?.point ?? 0}>
-                                                  <p className={"font-medium primary-bold-text"} style={{fontSize: 16}}>{option?.option}</p>
-                                              </Radio>
-                                          </Col>
-                                      ))
-                                  }
-                              </Row>
-                          </Radio.Group>
-                      </Form.Item>
+                  <div className={"mt-3 flex justify-center"}>
+                      <div style={{maxWidth: 300, backgroundColor: "#DDF4E7", borderRadius: 8, padding: "10px"}} >
+                          <Form.Item name={"choose"}>
+                              <Radio.Group>
+                                  <Row gutter={16}>
+                                      {
+                                          voteInfo?.options?.map((option: any) => (
+                                              <Col span={24} className={"mt-2 text-left"}>
+                                                  <Radio value={option?.point ?? 0}>
+                                                      <p className={"font-medium primary-bold-text"} style={{fontSize: 16}}>{option?.option}</p>
+                                                  </Radio>
+                                              </Col>
+                                          ))
+                                      }
+                                  </Row>
+                              </Radio.Group>
+                          </Form.Item>
+                      </div>
+
                   </div>
 
                   <Button className={"mt-5"} type="primary" htmlType="submit" icon={<SendOutlined/>}>Gửi</Button>

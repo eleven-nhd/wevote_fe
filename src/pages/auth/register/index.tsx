@@ -5,6 +5,7 @@ import {useEffect} from "react";
 import {AuthService} from "../../../api/services/AuthService.ts";
 import {ArrowLeftOutlined, LoginOutlined} from "@ant-design/icons";
 import "../style.css";
+import {toast} from "react-toastify";
 
 export default function RegisterPage() {
     const [registerForm] = Form.useForm();
@@ -25,16 +26,21 @@ export default function RegisterPage() {
                     ...registerForm.getFieldsValue()
                 },
             }).then((res: any) => {
-                if(res.code === 200) {
+                if(res){
+                    toast.success("Đăng ký thành công");
                     navigate("/login");
+                } else {
+                    toast.error("Đăng ký thất bại");
+                    return;
                 }
+
             });
-        } catch (err) {
-            console.error(err);
+        } catch (err: any) {
+            toast.error(err?.response?.data?.message ?? "Đăng ký thất bại");
         }
     };
-    const onFinishFailed: FormProps['onFinishFailed'] = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const onFinishFailed: FormProps['onFinishFailed'] = () => {
+        toast.error("Vui lòng xem lại thông tin");
     };
 
     return (
