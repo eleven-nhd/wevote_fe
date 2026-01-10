@@ -5,7 +5,9 @@ import RegisterPage from "../pages/auth/register";
 
 export const AuthRouter = {
     path: "/",
-    element: <AuthLayout />,
+    element:
+        <AuthLayout />
+    ,
     children: [
         { path: "/login", element: <LoginPage /> },
         { path: "/register", element: <RegisterPage /> },

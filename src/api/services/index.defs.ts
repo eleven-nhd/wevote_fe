@@ -168,6 +168,12 @@ export interface LoginDto {
   email: string;
 }
 
+/** RefreshTokenDto */
+export interface RefreshTokenDto {
+  /**  */
+  refreshToken: string;
+}
+
 /** RegisterDto */
 export interface RegisterDto {
   /**  */
@@ -180,10 +186,10 @@ export interface CreateCampaignDto {
   name: string;
 
   /**  */
-  description: string;
+  description?: string;
 
   /**  */
-  featureImage: string;
+  featureImage?: string;
 
   /**  */
   publicResult: boolean;
@@ -222,10 +228,10 @@ export interface CreateVoteDto {
   name: string;
 
   /**  */
-  description: string;
+  description?: string;
 
   /**  */
-  featureImage: string;
+  featureImage?: string;
 
   /**  */
   options: string[];

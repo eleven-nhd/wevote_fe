@@ -10,7 +10,7 @@ import TransactionStatistics from "../pages/campaign/TransactionStatistics.tsx";
 import TransactionPage from "../pages/transaction";
 
 export const MainRouter = {
-    path: "/page",
+    path: "/",
     element: (
         <PrivateRoute>
             <MainLayout />
