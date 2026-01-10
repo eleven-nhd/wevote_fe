@@ -27,7 +27,7 @@ export const CreateOrUpdateCampaignForm = (props: {form: FormInstance}) => {
               </div>
           </Col>
           <Col span={24}>
-              <BaseDateRange form={props.form}/>
+              <BaseDateRange showTime form={props.form}/>
           </Col>
           <Col span={24}>
               <Form.Item name={"publicResult"}>

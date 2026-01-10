@@ -43,14 +43,14 @@ const CampaignPage = () => {
             dataIndex: "startTime",
             key: "startTime",
 
-            render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY')
+            render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm')
         },
         {
             title: "Ngày kết thúc",
             dataIndex: "endTime",
             key: "endTime",
 
-            render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY')
+            render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm')
         }
     ];
 

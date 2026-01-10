@@ -69,7 +69,7 @@ const BaseDateRange: React.FC<BaseDateRangeProps> = ({
                 >
                     <DatePicker
                         style={{ width: '100%' }}
-                        format="DD/MM/YYYY"
+                        format={showTime ? "DD/MM/YYYY HH:mm" : "DD/MM/YYYY"}
                         disabled={disabled}
                         onChange={handleStartChange}
                         placeholder="Chọn ngày bắt đầu"
@@ -100,7 +100,7 @@ const BaseDateRange: React.FC<BaseDateRangeProps> = ({
                 >
                     <DatePicker
                         style={{ width: '100%' }}
-                        format="DD/MM/YYYY"
+                        format={showTime ? "DD/MM/YYYY HH:mm" : "DD/MM/YYYY"}
                         disabledDate={disabledEndDate}
                         disabled={disabled}
                         showTime={showTime ? { format: 'HH:mm' } : false}
