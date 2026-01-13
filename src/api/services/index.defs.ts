@@ -291,19 +291,10 @@ export interface CreateTransactionDto {
   campaignId: ObjectId;
 
   /**  */
+  creatorCampaignId: ObjectId;
+
+  /**  */
   creationTime: Date;
-}
-
-/** PageRequestTransactionDto */
-export interface PageRequestTransactionDto {
-  /**  */
-  filters: object;
-
-  /**  */
-  page: number;
-
-  /**  */
-  size: number;
 }
 
 /** UpdateTransactionDto */
@@ -319,6 +310,9 @@ export interface UpdateTransactionDto {
 
   /**  */
   campaignId?: ObjectId;
+
+  /**  */
+  creatorCampaignId?: ObjectId;
 
   /**  */
   creationTime?: Date;

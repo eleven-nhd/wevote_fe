@@ -6,7 +6,7 @@ import DateUtil from "../../core/utils/dateUtil.ts";
 import {transactionActions} from "../../stores/transactionSlice.ts";
 import {Col, Form} from "antd";
 import BaseSelect from "../../core/components/BaseSelect.tsx";
-import {useSelectCampaign} from "../../core/select/campaignSelectOption.ts";
+import {useSelectVote} from "../../core/select/voteSelectOption.ts";
 
 const TransactionPage = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -63,10 +63,10 @@ const TransactionPage = () => {
                 loading={loading}
                 extraSearchFields={
                     <Col span={4}>
-                        <Form.Item name={"campaignId"} >
+                        <Form.Item name={"voteId"} >
                             <BaseSelect
-                                fetchOptions={useSelectCampaign}
-                                placeholder={"Chọn chiến dịch"}
+                                fetchOptions={useSelectVote}
+                                placeholder={"Chọn vote"}
                                 style={{width: "100%"}}
                             />
                         </Form.Item>

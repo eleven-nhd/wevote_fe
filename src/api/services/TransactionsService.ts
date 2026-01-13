@@ -1,7 +1,16 @@
 import {
   CreateTransactionDto,
-  PageRequestTransactionDto,
+  ObjectId,
+  PageRequestDto,
   UpdateTransactionDto,
+  IList,
+  List,
+  IListResult,
+  ListResultDto,
+  IPagedResult,
+  PagedResultDto,
+  Dictionary,
+  IDictionary,
   IRequestOptions,
   IRequestConfig,
   getConfigs,
@@ -42,7 +51,7 @@ export class TransactionsService {
   static getPage(
     params: {
       /** requestBody */
-      body?: PageRequestTransactionDto;
+      body?: PageRequestDto;
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<any> {

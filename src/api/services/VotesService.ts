@@ -1,7 +1,16 @@
 import {
   CreateVoteDto,
+  ObjectId,
   PageRequestDto,
   UpdateVoteDto,
+  IList,
+  List,
+  IListResult,
+  ListResultDto,
+  IPagedResult,
+  PagedResultDto,
+  Dictionary,
+  IDictionary,
   IRequestOptions,
   IRequestConfig,
   getConfigs,
@@ -102,6 +111,18 @@ export class VotesService {
       let data = params.body;
 
       configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static dataSelect(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/votes/data-select';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       axios(configs, resolve, reject);
     });

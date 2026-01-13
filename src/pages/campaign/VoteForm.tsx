@@ -31,6 +31,7 @@ const VoteForm = () => {
                 voterId: getCookie("voterId"),
                 voteId: voteInfo?._id,
                 campaignId: voteInfo?.campaignId?._id,
+                creatorCampaignId: voteInfo?.creatorId
             }
         }).then(res => {
             if(res){
