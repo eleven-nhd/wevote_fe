@@ -96,7 +96,7 @@ const CampaignPage = () => {
                 onDelete={(id) => dispatch(campaignActions.deleteData(id))}
                 actionColumns={(record) => [
                     {
-                        label: "Danh sách vote",
+                        label: "In vote",
                         key: "detail",
                         icon: <BarChartOutlined />,
                         onClick: () => {

@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import type {AppDispatch, RootState} from "../../stores";
 import {useEffect, useState} from "react";
-import {Col, Form, Modal} from "antd";
+import {Col, Form, Modal, Select, type SelectProps} from "antd";
 import {BaseTableCrud} from "../../core/components/table";
 import {voteActions} from "../../stores/voteSlice.ts";
 import {CreateOrUpdateVoteForm} from "./CreateOrUpdateForm.tsx";
@@ -17,6 +17,20 @@ const VotePage = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [editRecord, setEditRecord] = useState<any>(null);
     const [form] = Form.useForm();
+    const options: SelectProps['options'] = [
+        {
+            value: "Bách khoa Hà nội",
+            label: "Bách khoa Hà nội"
+        },
+        {
+            value: "Beefsteak",
+            label: "Beefsteak"
+        },
+        {
+            value: "Pizza",
+            label: "Pizza"
+        }
+    ];
 
     useEffect(() => {
         dispatch(voteActions.getPage({page: page, filters: filters, size: pageSize}));
@@ -84,15 +98,27 @@ const VotePage = () => {
                 onPageChange={(p) => dispatch(voteActions.setPage(p))}
                 onCreate={() => setModalOpen(true)}
                 extraSearchFields={
-                    <Col span={4}>
-                        <Form.Item name={"campaignId"} >
-                            <BaseSelect
-                                fetchOptions={useSelectCampaign}
-                                placeholder={"Chọn chiến dịch"}
-                                style={{width: "100%"}}
-                            />
-                        </Form.Item>
-                    </Col>
+                    <>
+                        <Col span={4}>
+                            <Form.Item name={"campaignId"} >
+                                <BaseSelect
+                                    fetchOptions={useSelectCampaign}
+                                    placeholder={"Chọn chiến dịch"}
+                                    style={{width: "100%"}}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item name="tags" >
+                                <Select
+                                    mode="tags"
+                                    style={{ width: '100%' }}
+                                    placeholder="Nhập tags"
+                                    options={options}
+                                />
+                            </Form.Item>
+                        </Col>
+                    </>
                 }
                 onEdit={(record) => {
                     setEditRecord(record);
