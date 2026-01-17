@@ -6,6 +6,7 @@ import {Button, Col, Row, Table} from "antd";
 import {useParams} from "react-router-dom";
 import {CampaignsService} from "../../api/services/CampaignsService.ts";
 import TransactionStatisticsChart from "./TransactionStatisticsChart.tsx";
+import {socket} from "../../core/configs/socket.ts";
 
 const TransactionStatistics = () => {
     const navigate = useNavigate();
@@ -16,9 +17,42 @@ const TransactionStatistics = () => {
     const {id} = useParams();
     useEffect(() => {
         CampaignsService.getListVoteTransaction({ campaignId: id as any }).then(res => {
-            setListVote(res)
+            console.debug('initial load listVote, items=', Array.isArray(res) ? res.length : res);
+            setListVote(Array.isArray(res) ? [...res] : res);
         })
     }, [id]);
+
+    // websocket
+    useEffect(() => {
+        if (!id) return;
+        const handleListVoteUpdate = (msg: any) => {
+            console.debug('socket listVote:update received', msg, 'for campaignId', id);
+            const isRelevantType = msg?.type === 'CREATE' || msg?.type === 'UPDATE';
+            const isForThisCampaign = !msg?.campaignId || String(msg.campaignId) === String(id);
+            if (isRelevantType && isForThisCampaign) {
+                console.debug('listVote:update is relevant, reloading list for campaign', id);
+                CampaignsService.getListVoteTransaction({ campaignId: id as any })
+                    .then(res => {
+                        console.debug('reloaded listVote, items=', Array.isArray(res) ? res.length : res);
+                        setListVote(Array.isArray(res) ? [...res] : res);
+                    })
+                    .catch(err => {
+                        console.error('Failed to reload listVote after socket update', err);
+                    });
+            } else {
+                console.debug('listVote:update not relevant to this campaign, ignoring', { isRelevantType, isForThisCampaign, id });
+            }
+        };
+
+        console.debug('registering socket listener for listVote:update, campaignId=', id);
+        socket.on('listVote:update', handleListVoteUpdate);
+
+        return () => {
+            console.debug('unregistering socket listener for listVote:update, campaignId=', id);
+            socket.off('listVote:update', handleListVoteUpdate);
+        };
+    }, [id]);
+
 
     const columns = [
         {
@@ -70,6 +104,7 @@ const TransactionStatistics = () => {
                     <Table
                         columns={columns}
                         dataSource={listVote}
+                        rowKey={(record) => record._id || record.id}
                     />
                 </Col>
                 <Col span={12}>

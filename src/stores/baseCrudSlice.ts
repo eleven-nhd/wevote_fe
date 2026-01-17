@@ -100,7 +100,7 @@ export const createBaseCrudSlice = <T>(
                 if (res.isSuccessful) {
                     toast.success(res.message ?? "Deleted successfully!");
                 } else {
-                    toast.error(res.message ?? "Delete failed!");
+                    toast.error(res.error ?? "Delete failed!");
                 }
 
                 refreshPage(dispatch, getState()[name]);

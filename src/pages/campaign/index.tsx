@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import DateUtil from "../../core/utils/dateUtil.ts";
 import {BarChartOutlined, StockOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router";
+import {ColumnsType} from "antd/es/table";
 
 const CampaignPage = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -27,6 +28,15 @@ const CampaignPage = () => {
             dataIndex: "_id",
             key: "_id",
             hidden: true
+        },
+        {
+            title: "Hình ảnh",
+            dataIndex: "featureImage",
+            key: "featureImage",
+            align: "center",
+            width: 100,
+            render: (value: any, record: any) =>
+                <img draggable={false} src={value} alt="avatar" style={{ maxWidth: 100, maxHeight: 100 }} />
         },
         {
             title: "Tên chiến dịch",
@@ -52,7 +62,7 @@ const CampaignPage = () => {
 
             render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm')
         }
-    ];
+    ] as ColumnsType;
 
     const handleSubmit = async () => {
         const values = await form.validateFields();

@@ -104,7 +104,7 @@ export function BaseTableCrud<T extends { id: string }>(
                             title="Xóa bản ghi này?"
                             open={deleteId === record._id}
                             onCancel={closePopconfirm}
-                            onConfirm={() => onDelete(record.id)}
+                            onConfirm={() => onDelete(record._id)}
                             cancelText={"Đóng"}
                             okText={"Đồng ý"}
                         />

@@ -39,6 +39,15 @@ const VotePage = () => {
     const columns: ColumnsType = [
         { dataIndex: "_id", key: "_id", hidden: true },
         {
+            title: "Hình ảnh",
+            dataIndex: "featureImage",
+            key: "featureImage",
+            align: "center",
+            width: 100,
+            render: (value: any, record: any) =>
+                <img draggable={false} src={value} alt="avatar" style={{ maxWidth: 100, maxHeight: 100 }} />
+        },
+        {
             title: "Tên vote",
             dataIndex: "name",
             key: "name" ,

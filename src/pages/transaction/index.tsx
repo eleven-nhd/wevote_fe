@@ -7,6 +7,7 @@ import {transactionActions} from "../../stores/transactionSlice.ts";
 import {Col, Form} from "antd";
 import BaseSelect from "../../core/components/BaseSelect.tsx";
 import {useSelectVote} from "../../core/select/voteSelectOption.ts";
+import {socket} from "../../core/configs/socket.ts";
 
 const TransactionPage = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -14,6 +15,19 @@ const TransactionPage = () => {
     useEffect(() => {
         dispatch(transactionActions.getPage({page: page, filters: filters, size: pageSize}));
     }, [page, filters, pageSize]);
+
+    // websocket
+    useEffect(() => {
+        socket.on('table:update', (msg: any) => {
+            if (msg?.type === 'CREATE' || msg?.type === 'UPDATE') {
+                dispatch(transactionActions.getPage({ page, filters, size: pageSize }));
+            }
+        });
+
+        return () => {
+            socket.off('table:update');
+        };
+    }, [dispatch, page, filters, pageSize]);
 
     const columns = [
         {
@@ -43,7 +57,7 @@ const TransactionPage = () => {
             dataIndex: "creationTime",
             key: "creationTime",
 
-            render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY')
+            render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm')
         }
     ];
 
