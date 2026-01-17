@@ -286,7 +286,7 @@ const DashboardPage = () => {
                                       <p style={{ marginTop: 8, marginBottom: 0, color: '#475569', maxHeight: 48, overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 13 }}>{voteTop?.vote?.description || 'Không có mô tả'}</p>
 
                                       <div style={{ marginTop: 10, display: 'flex', gap: 8, alignItems: 'center' }}>
-                                          <span style={{ fontSize: 12, color: '#6b7280' }}>Số lựa chọn: <strong style={{ color: '#374151' }}>{voteTop?.totalChoose ?? 0}</strong></span>
+                                          <span style={{ fontSize: 12, color: '#6b7280' }}>Số lựa chọn: <strong style={{ color: '#374151' }}>{voteTop?.totalTransactions ?? 0}</strong></span>
                                       </div>
                                   </div>
 

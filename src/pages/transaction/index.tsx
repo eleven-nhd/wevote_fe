@@ -48,7 +48,7 @@ const TransactionPage = () => {
             )
         },
         {
-            title: "Lựa chọn",
+            title: "Điểm",
             dataIndex: "choose",
             key: "choose",
         },
