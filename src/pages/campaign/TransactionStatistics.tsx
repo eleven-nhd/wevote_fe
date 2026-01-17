@@ -100,6 +100,9 @@ const TransactionStatistics = () => {
                 }
             />
             <Row gutter={16}>
+                <Col span={24}>
+                    <p className={"font-medium mb-3"}>URL: {`${import.meta.env.VITE_FRONTEND_URL}/page/campaign/statistics/public/${id}`}</p>
+                </Col>
                 <Col span={12}>
                     <Table
                         columns={columns}
