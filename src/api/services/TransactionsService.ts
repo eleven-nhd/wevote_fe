@@ -134,4 +134,26 @@ export class TransactionsService {
       axios(configs, resolve, reject);
     });
   }
+  /**
+   *
+   */
+  static getByVoterAndVote(
+    params: {
+      /**  */
+      voterId: string;
+      /**  */
+      voteId: string;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/transactions/get-by-voter-and-vote/{voteId}/{voterId}';
+      url = url.replace('{voterId}', params['voterId'] + '');
+      url = url.replace('{voteId}', params['voteId'] + '');
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      axios(configs, resolve, reject);
+    });
+  }
 }

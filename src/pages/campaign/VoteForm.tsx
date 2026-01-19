@@ -6,7 +6,7 @@ import {generateUUID} from "../../core/utils/commonUtil.ts";
 import {VotesService} from "../../api/services/VotesService.ts";
 import {TransactionsService} from "../../api/services/TransactionsService.ts";
 import {toast} from "react-toastify";
-import {SendOutlined} from "@ant-design/icons";
+import {InfoCircleOutlined, SendOutlined} from "@ant-design/icons";
 import "./style.css"
 import dayjs from "dayjs";
 
@@ -14,10 +14,18 @@ const VoteForm = () => {
     const {voteId} = useParams();
     const [form] = Form.useForm();
     const [voteInfo, setVoteInfo] = useState<any>([]);
+    const [transactionsInfo, setTransactionsInfo] = useState<any>({});
     useEffect(() => {
         const voterId = getCookie("voterId");
         if(!voterId) {
             setCookie("voterId", generateUUID());
+        } else {
+            TransactionsService.getByVoterAndVote({
+                voterId: voterId,
+                voteId: voteId as any
+            }).then(res => {
+                setTransactionsInfo(res);
+            })
         }
         VotesService.getById({ id: voteId as any }).then(res => {
             setVoteInfo(res);
@@ -61,6 +69,11 @@ const VoteForm = () => {
                   <p style={{fontSize: 20, marginTop: 16}} className={"font-medium primary-bold-text"}>{voteInfo?.name}</p>
                   <p>{voteInfo?.description}</p>
                   <Form.Item name={"creationTime"} initialValue={dayjs()} hidden/>
+                  {
+                      transactionsInfo != null ?
+                          <p><InfoCircleOutlined /> Bạn đã tham gia bình chọn với <span className={"font-medium"}>{voteInfo?.options?.filter((x: any) => x?.point === transactionsInfo.choose)[0]?.option}</span>. Nếu gửi thêm bình chọn kết quả sẽ được cập nhật lại theo lựa chọn mới nhất.</p> :
+                          null
+                  }
                   <div className={"mt-3 flex justify-center"}>
                       <div style={{maxWidth: 300, backgroundColor: "#DDF4E7", borderRadius: 8, padding: "10px"}} >
                           <Form.Item name={"choose"}>

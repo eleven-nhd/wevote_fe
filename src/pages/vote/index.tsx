@@ -45,7 +45,9 @@ const VotePage = () => {
             align: "center",
             width: 100,
             render: (value: any, record: any) =>
-                <img draggable={false} src={value} alt="avatar" style={{ maxWidth: 100, maxHeight: 100 }} />
+                value ?
+                    <img src={value} alt="avatar" style={{ maxWidth: 100, maxHeight: 100 }} /> :
+                    <img src={"/image.png"} alt="avatar" style={{ maxWidth: 100, maxHeight: 100 }} />
         },
         {
             title: "Tên vote",
