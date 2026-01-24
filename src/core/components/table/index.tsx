@@ -143,7 +143,7 @@ export function BaseTableCrud<T extends { id: string }>(
 
             <Table
                 bordered
-                rowKey="id"
+                rowKey={(record: any) => record._id}
                 columns={actionColumn ? [
                     {
                         title: 'STT',
@@ -173,6 +173,8 @@ export function BaseTableCrud<T extends { id: string }>(
                     total,
                     pageSize,
                     onChange: (p) => onPageChange(p),
+                    showSizeChanger: true,
+                    showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} bản ghi`,
                 }}
             />
         </div>

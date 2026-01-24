@@ -8,7 +8,7 @@ const TransactionStatisticsPublic = () => {
     const [listVote, setListVote] = useState<any[]>([]);
     const {id} = useParams();
     useEffect(() => {
-        CampaignsService.getListVoteTransaction({ campaignId: id as any }).then(res => {
+        CampaignsService.getListVote({ campaignId: id as any }).then(res => {
             setListVote(Array.isArray(res) ? [...res] : res);
         })
     }, [id]);

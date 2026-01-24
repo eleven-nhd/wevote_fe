@@ -102,6 +102,7 @@ const CampaignPage = () => {
                         ...record,
                         startTime: dayjs(record?.startTime),
                         endTime: dayjs(record?.endTime),
+                        publicResult: record?.publicResult ?? true,
                     });
                     setModalOpen(true);
                 }}

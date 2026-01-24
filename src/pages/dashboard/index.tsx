@@ -153,11 +153,11 @@ const DashboardPage = () => {
                               top: 5,
                               right: 0,
                               left: 0,
-                              bottom: 5,
+                              bottom: 50,
                           }}
                       >
                           <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
+                          <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
                           <YAxis width="auto" />
                           <Tooltip />
                           <Legend />

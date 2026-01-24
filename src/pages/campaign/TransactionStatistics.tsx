@@ -17,7 +17,6 @@ const TransactionStatistics = () => {
     const {id} = useParams();
     useEffect(() => {
         CampaignsService.getListVoteTransaction({ campaignId: id as any }).then(res => {
-            console.debug('initial load listVote, items=', Array.isArray(res) ? res.length : res);
             setListVote(Array.isArray(res) ? [...res] : res);
         })
     }, [id]);

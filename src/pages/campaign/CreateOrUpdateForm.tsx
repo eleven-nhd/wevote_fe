@@ -30,8 +30,8 @@ export const CreateOrUpdateCampaignForm = (props: {form: FormInstance}) => {
               <BaseDateRange showTime form={props.form}/>
           </Col>
           <Col span={24}>
-              <Form.Item name={"publicResult"}>
-                  <Checkbox defaultChecked={true}>Công khai</Checkbox>
+              <Form.Item name={"publicResult"} valuePropName="checked" initialValue={true}>
+                  <Checkbox>Công khai</Checkbox>
               </Form.Item>
           </Col>
         </Row>
