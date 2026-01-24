@@ -46,8 +46,8 @@ const VotePage = () => {
             width: 100,
             render: (value: any, record: any) =>
                 value ?
-                    <img src={value} alt="avatar" style={{ maxWidth: 100, maxHeight: 100 }} /> :
-                    <img src={"/image.png"} alt="avatar" style={{ maxWidth: 100, maxHeight: 100 }} />
+                    <img src={value} alt="avatar" style={{ maxWidth: 80, maxHeight: 80 }} /> :
+                    <img src={"/image.png"} alt="avatar" style={{ maxWidth: 80, maxHeight: 80 }} />
         },
         {
             title: "Tên vote",
@@ -68,13 +68,14 @@ const VotePage = () => {
             dataIndex: "creationTime",
             key: "creationTime",
             align: "center",
-            width: 300,
+            width: 200  ,
             render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm')
         },
         {
             title: "Mô tả",
             dataIndex: "description",
             key: "description",
+            width: 400
         },
     ];
 
@@ -97,6 +98,7 @@ const VotePage = () => {
                 data={list}
                 total={total}
                 page={page}
+                pageSize={pageSize}
                 loading={loading}
                 breadcrumbs={[
                     {
@@ -107,6 +109,7 @@ const VotePage = () => {
                 onFilterChange={(kw) => dispatch(voteActions.applyFilters(kw))}
                 onResetFilter={() => dispatch(voteActions.resetFilters())}
                 onPageChange={(p) => dispatch(voteActions.setPage(p))}
+                onPageSizeChange={(size) => dispatch(voteActions.setPageSize(size))}
                 onCreate={() => setModalOpen(true)}
                 extraSearchFields={
                     <>

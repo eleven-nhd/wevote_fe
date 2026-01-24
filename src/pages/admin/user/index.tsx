@@ -77,10 +77,12 @@ export default function UserPage() {
                 data={list}
                 total={total}
                 page={page}
+                pageSize={pageSize}
                 loading={loading}
                 onFilterChange={(kw) => dispatch(userActions.applyFilters(kw))}
                 onResetFilter={() => dispatch(userActions.resetFilters())}
                 onPageChange={(p) => dispatch(userActions.setPage(p))}
+                onPageSizeChange={(size) => dispatch(userActions.setPageSize(size))}
                 onCreate={() => setModalOpen(true)}
                 onEdit={(record) => {
                     setEditRecord(record);

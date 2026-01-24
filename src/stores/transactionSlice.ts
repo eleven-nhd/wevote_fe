@@ -6,9 +6,10 @@ const { reducer, actions } = createBaseCrudSlice<any>({
     name: "transaction",
     fetchPage: async (input) => {
         const res = await TransactionsService.getPage({body: input});
+        // API returns object with data array and count
         return {
-            data: res,
-            total: res?.count,
+            items: res && Array.isArray(res.items) ? res?.items : [],
+            total: res?.total || 0,
         };
     }, createItem(): Promise<CommonResultDto<any>> {
         return Promise.resolve(new CommonResultDto<any>());

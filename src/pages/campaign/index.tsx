@@ -37,31 +37,33 @@ const CampaignPage = () => {
             width: 100,
             render: (value: any, record: any) =>
                 value ?
-                <img src={value} alt="avatar" style={{ maxWidth: 100, maxHeight: 100 }} /> :
-                <img src={"/image.png"} alt="avatar" style={{ maxWidth: 100, maxHeight: 100 }} />
+                    <img src={value} alt="avatar" style={{ maxWidth: 80, maxHeight: 80 }} /> :
+                    <img src={"/image.png"} alt="avatar" style={{ maxWidth: 80, maxHeight: 80 }} />
         },
         {
             title: "Tên chiến dịch",
             dataIndex: "name",
-            key: "name"
+            key: "name",
+            width: 200
         },
         {
             title: "Mô tả",
             dataIndex: "description",
-            key: "description"
+            key: "description",
+            width: 400
         },
         {
             title: "Ngày bắt đầu",
             dataIndex: "startTime",
             key: "startTime",
-
+            width: 200,
             render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm')
         },
         {
             title: "Ngày kết thúc",
             dataIndex: "endTime",
             key: "endTime",
-
+            width: 200,
             render: (_value: any) => DateUtil.toFormat(_value, 'DD/MM/YYYY HH:mm')
         }
     ] as ColumnsType;
@@ -85,6 +87,7 @@ const CampaignPage = () => {
                 data={list}
                 total={total}
                 page={page}
+                pageSize={pageSize}
                 loading={loading}
                 breadcrumbs={[
                     {
@@ -95,6 +98,7 @@ const CampaignPage = () => {
                 onFilterChange={(kw) => dispatch(campaignActions.applyFilters(kw))}
                 onResetFilter={() => dispatch(campaignActions.resetFilters())}
                 onPageChange={(p) => dispatch(campaignActions.setPage(p))}
+                onPageSizeChange={(size) => dispatch(campaignActions.setPageSize(size))}
                 onCreate={() => setModalOpen(true)}
                 onEdit={(record) => {
                     setEditRecord(record);

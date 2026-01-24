@@ -22,6 +22,7 @@ interface Props<T> {
     onFilterChange: (values: any) => void;
     onResetFilter?: () => void;
     onPageChange: (page: number) => void;
+    onPageSizeChange?: (pageSize: number) => void;
     onCreate?: () => void;
     onEdit?: (record: T) => void;
     onDelete?: (id: string) => void;
@@ -40,6 +41,7 @@ export function BaseTableCrud<T extends { id: string }>(
         loading,
         pageSize = 10,
         onPageChange,
+        onPageSizeChange,
         onCreate,
         onEdit,
         onDelete,
@@ -71,7 +73,7 @@ export function BaseTableCrud<T extends { id: string }>(
         {
             title: "Thao tác",
             key: "action",
-            width: 200,
+            width: 120,
             align: "center",
             render: (_, record: any) => {
                 let menuProps = {
@@ -141,42 +143,51 @@ export function BaseTableCrud<T extends { id: string }>(
                 </Row>
             </Form>
 
-            <Table
-                bordered
-                rowKey={(record: any) => record._id}
-                columns={actionColumn ? [
-                    {
-                        title: 'STT',
-                        key: 'stt',
-                        width: 80,
-                        align: 'center',
-                        render: (_: any, __: any, index: number) =>
-                            (page - 1) * pageSize + index + 1,
-                    },
-                    ...columns,
-                    actionColumn
-                ] : [
-                    {
-                        title: 'STT',
-                        key: 'stt',
-                        width: 80,
-                        align: 'center',
-                        render: (_: any, __: any, index: number) =>
-                            (page - 1) * pageSize + index + 1,
-                    },
-                    ...columns,
-                ]}
-                dataSource={data}
-                loading={loading}
-                pagination={{
-                    current: page,
-                    total,
-                    pageSize,
-                    onChange: (p) => onPageChange(p),
-                    showSizeChanger: true,
-                    showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} bản ghi`,
-                }}
-            />
+            <div style={{ overflowX: 'auto', borderRadius: '4px' }}>
+                <Table
+                    bordered
+                    rowKey={(record: any) => record._id}
+
+                    columns={actionColumn ? [
+                        {
+                            title: 'STT',
+                            key: 'stt',
+                            width: 80,
+                            align: 'center',
+                            render: (_: any, __: any, index: number) =>
+                                (page - 1) * pageSize + index + 1,
+                        },
+                        ...columns,
+                        actionColumn
+                    ] : [
+                        {
+                            title: 'STT',
+                            key: 'stt',
+                            width: 80,
+                            align: 'center',
+                            render: (_: any, __: any, index: number) =>
+                                (page - 1) * pageSize + index + 1,
+                        },
+                        ...columns,
+                    ]}
+                    dataSource={data}
+                    loading={loading}
+                    scroll={{ x: true }}
+                    pagination={{
+                        current: page,
+                        total,
+                        pageSize,
+                        onChange: (p) => onPageChange(p),
+                        onShowSizeChange: (current, size) => {
+                            onPageSizeChange?.(size);
+                            onPageChange(1);
+                        },
+                        showSizeChanger: true,
+                        pageSizeOptions: ['5', '10', '20', '50', '100'],
+                        showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} bản ghi`,
+                    }}
+                />
+            </div>
         </div>
     );
 }

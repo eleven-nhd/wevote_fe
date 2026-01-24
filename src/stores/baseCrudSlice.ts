@@ -27,7 +27,7 @@ export const createBaseCrudSlice = <T>(
        deleteItem,
     }: {
     name: string;
-    fetchPage: (params: PageRequestDto) => Promise<{ data: T[]; total: number }>;
+    fetchPage: (params: PageRequestDto) => Promise<{ items: T[]; total: number }>;
     createItem: (data: Partial<T>) => Promise<CommonResultDto<any>>;
     updateItem: (id: string, data: Partial<T>) => Promise<CommonResultDto<any>>;
     deleteItem: (id: string) => Promise<CommonResultDto<any>>;
@@ -45,7 +45,10 @@ export const createBaseCrudSlice = <T>(
         `${name}/getPage`,
         async (params: PageRequestDto) => {
             const res = await fetchPage(params);
-            return res;
+            return {
+                items: res.items || [],
+                total: res.total || 0
+            };
         }
     );
 
@@ -145,6 +148,10 @@ export const createBaseCrudSlice = <T>(
                 state.page = action.payload;
             },
 
+            setPageSize(state, action) {
+                state.pageSize = action.payload;
+            },
+
             setFilters(state, action) {
                 state.filters = {
                     ...state.filters,
@@ -165,7 +172,7 @@ export const createBaseCrudSlice = <T>(
                 })
                 .addCase(getPage.fulfilled, (state, action) => {
                     state.loading = false;
-                    state.list = action.payload.data as [];
+                    state.list = action.payload.items as [];
                     state.total = action.payload.total;
                 })
                 .addCase(getPage.rejected, (state, action) => {

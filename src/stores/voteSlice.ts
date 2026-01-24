@@ -5,9 +5,10 @@ const { reducer, actions } = createBaseCrudSlice<any>({
     name: "vote",
     fetchPage: async (input) => {
         const res = await VotesService.getPage({body: input});
+        // API returns object with data array and count
         return {
-            data: res,
-            total: res?.count,
+            items: res && Array.isArray(res.items) ? res?.items : [],
+            total: res?.total || 0,
         };
     },
     createItem: async (data: any) => {
