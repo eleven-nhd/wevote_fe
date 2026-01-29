@@ -56,7 +56,7 @@ export default function RegisterPage() {
                     autoComplete="off"
                 >
                     <div className={'flex justify-center w-full'}>
-                        <img className={'logo-login'} src={'public/logo.png'} />
+                        <img className={'logo-login'} src={'/logo.png'} />
                     </div>
 
                     <h1 className="primary-header-text">Đăng ký</h1>
