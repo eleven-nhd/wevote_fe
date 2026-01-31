@@ -32,7 +32,7 @@ export default function LoginPage() {
                     ...loginForm.getFieldsValue()
                 },
             }).then((res: any) => {
-                login(res.access_token);
+                login(res.access_token); //lưu token đăng nhập
             });
             await AuthService.profile().then((res: UserProfile) => {
                 dispatch(setUser({

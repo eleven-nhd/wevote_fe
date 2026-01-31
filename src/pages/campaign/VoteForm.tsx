@@ -15,6 +15,7 @@ const VoteForm = () => {
     const [form] = Form.useForm();
     const [voteInfo, setVoteInfo] = useState<any>([]);
     const [transactionsInfo, setTransactionsInfo] = useState<any>({});
+    //kiểm tra người dùng đã từng vote chưa
     useEffect(() => {
         const voterId = getCookie("voterId");
         if(!voterId) {
@@ -68,7 +69,7 @@ const VoteForm = () => {
                   <img src={voteInfo?.featureImage} alt="avatar" height={80} width={80} style={{display: "inline"}} />
                   <p style={{fontSize: 20, marginTop: 16}} className={"font-medium primary-bold-text"}>{voteInfo?.name}</p>
                   <p>{voteInfo?.description}</p>
-                  <Form.Item name={"creationTime"} initialValue={dayjs()} hidden/>
+                  <Form.Item name={"creationTime"} initialValue={dayjs()} hidden/> //ghi nhận thời gian vote
                   {
                       transactionsInfo != null ?
                           <p><InfoCircleOutlined /> Bạn đã tham gia bình chọn với <span className={"font-medium"}>{voteInfo?.options?.filter((x: any) => x?.point === transactionsInfo.choose)[0]?.option}</span>. Nếu gửi thêm bình chọn kết quả sẽ được cập nhật lại theo lựa chọn mới nhất.</p> :
@@ -77,7 +78,7 @@ const VoteForm = () => {
                   <div className={"mt-3 flex justify-center"}>
                       <div style={{maxWidth: 300, backgroundColor: "#DDF4E7", borderRadius: 8, padding: "10px"}} >
                           <Form.Item name={"choose"}>
-                              <Radio.Group>
+                              <Radio.Group> //chọn 1 phương án
                                   <Row gutter={16}>
                                       {
                                           voteInfo?.options?.map((option: any) => (

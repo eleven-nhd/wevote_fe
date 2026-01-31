@@ -31,7 +31,7 @@ const VotePage = () => {
             label: "Pizza"
         }
     ];
-
+//tự gọi lại danh sách vote
     useEffect(() => {
         dispatch(voteActions.getPage({page: page, filters: filters, size: pageSize}));
     }, [page, filters, pageSize]);

@@ -23,6 +23,7 @@ export default function RolePage() {
     { title: "Mô tả", dataIndex: "description", key: "description" }
   ];
 
+//kiểm tra xem đã nhập tên vai trò chưa
   const handleSubmit = async () => {
     const values = await form.validateFields();
     if (editRecord) {

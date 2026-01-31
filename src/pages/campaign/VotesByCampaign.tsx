@@ -38,6 +38,7 @@ const ListVoteByCampaign = () => {
 
           <Row gutter={32}>
               {
+                  //hiển thị danh sách vote
                   listVote?.map((item: any) => (
                       <Col span={12}>
                           <Row gutter={16}>

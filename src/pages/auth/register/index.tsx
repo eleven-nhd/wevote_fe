@@ -18,6 +18,7 @@ export default function RegisterPage() {
         })
     }, [pass_w]);
 
+    //kiểm tra dữ liệu
     const handleLogin = async () => {
         try {
             await registerForm.validateFields();

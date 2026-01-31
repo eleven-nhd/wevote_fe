@@ -16,6 +16,7 @@ export default function UserPage() {
     const [editRecord, setEditRecord] = useState<any>(null);
     const [form] = Form.useForm();
 
+    //tự gọi lại danh sách người dùng
     useEffect(() => {
         dispatch(userActions.getPage({page: page, filters: filters, size: pageSize}));
     }, [page, filters, pageSize]);

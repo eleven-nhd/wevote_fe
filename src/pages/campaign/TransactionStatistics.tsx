@@ -15,6 +15,7 @@ const TransactionStatistics = () => {
     }
     const [listVote, setListVote] = useState<any[]>([]);
     const {id} = useParams();
+    //gọi danh sách vote hiện tại
     useEffect(() => {
         CampaignsService.getListVoteTransaction({ campaignId: id as any }).then(res => {
             setListVote(Array.isArray(res) ? [...res] : res);
@@ -30,7 +31,7 @@ const TransactionStatistics = () => {
             const isForThisCampaign = !msg?.campaignId || String(msg.campaignId) === String(id);
             if (isRelevantType && isForThisCampaign) {
                 console.debug('listVote:update is relevant, reloading list for campaign', id);
-                CampaignsService.getListVoteTransaction({ campaignId: id as any })
+                CampaignsService.getListVoteTransaction({ campaignId: id as any })// cập nhật lại dữ liệu
                     .then(res => {
                         console.debug('reloaded listVote, items=', Array.isArray(res) ? res.length : res);
                         setListVote(Array.isArray(res) ? [...res] : res);
