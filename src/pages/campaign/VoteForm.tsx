@@ -14,7 +14,7 @@ const VoteForm = () => {
     const {voteId} = useParams();
     const [form] = Form.useForm();
     const [voteInfo, setVoteInfo] = useState<any>([]);
-    const [transactionsInfo, setTransactionsInfo] = useState<any>(null);
+    const [transactionsInfo, setTransactionsInfo] = useState<any>();
     //kiểm tra người dùng đã từng vote chưa
     useEffect(() => {
         const voterId = getCookie("voterId");
@@ -71,7 +71,7 @@ const VoteForm = () => {
                   <p>{voteInfo?.description}</p>
                   <Form.Item name={"creationTime"} initialValue={dayjs()} hidden/>
                   {
-                      transactionsInfo != null ?
+                      transactionsInfo ?
                           <p><InfoCircleOutlined /> Bạn đã tham gia bình chọn với <span className={"font-medium"}>{voteInfo?.options?.filter((x: any) => x?.point === transactionsInfo.choose)[0]?.option}</span>. Nếu gửi thêm bình chọn kết quả sẽ được cập nhật lại theo lựa chọn mới nhất.</p> :
                           null
                   }
