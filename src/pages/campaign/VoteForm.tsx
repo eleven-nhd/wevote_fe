@@ -14,7 +14,7 @@ const VoteForm = () => {
     const {voteId} = useParams();
     const [form] = Form.useForm();
     const [voteInfo, setVoteInfo] = useState<any>([]);
-    const [transactionsInfo, setTransactionsInfo] = useState<any>({});
+    const [transactionsInfo, setTransactionsInfo] = useState<any>(null);
     //kiểm tra người dùng đã từng vote chưa
     useEffect(() => {
         const voterId = getCookie("voterId");
@@ -69,7 +69,7 @@ const VoteForm = () => {
                   <img src={voteInfo?.featureImage} alt="avatar" height={80} width={80} style={{display: "inline"}} />
                   <p style={{fontSize: 20, marginTop: 16}} className={"font-medium primary-bold-text"}>{voteInfo?.name}</p>
                   <p>{voteInfo?.description}</p>
-                  <Form.Item name={"creationTime"} initialValue={dayjs()} hidden/> //ghi nhận thời gian vote
+                  <Form.Item name={"creationTime"} initialValue={dayjs()} hidden/>
                   {
                       transactionsInfo != null ?
                           <p><InfoCircleOutlined /> Bạn đã tham gia bình chọn với <span className={"font-medium"}>{voteInfo?.options?.filter((x: any) => x?.point === transactionsInfo.choose)[0]?.option}</span>. Nếu gửi thêm bình chọn kết quả sẽ được cập nhật lại theo lựa chọn mới nhất.</p> :
