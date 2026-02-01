@@ -6,7 +6,8 @@ import {
     LikeOutlined,
     ThunderboltOutlined
 } from '@ant-design/icons';
-import {Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis} from "recharts";
+import {Bar, BarChart, CartesianGrid, Legend, XAxis, YAxis} from "recharts";
+import Tooltip from "antd/lib/tooltip";
 import PieChartCampaign from "./PieChart.tsx";
 
 const DashboardPage = () => {
@@ -283,7 +284,24 @@ const DashboardPage = () => {
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                   <div style={{ paddingRight: 12 }}>
                                       <h3 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: '#0f172a', lineHeight: 1.1 }}>{voteTop?.vote?.name || 'Chưa có vote'}</h3>
-                                      <p style={{ marginTop: 8, marginBottom: 0, color: '#475569', maxHeight: 48, overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 13 }}>{voteTop?.vote?.description || 'Không có mô tả'}</p>
+                                      <Tooltip title={voteTop?.vote?.description || 'Không có mô tả'}>
+                                          <p
+                                              style={{
+                                                  marginTop: 8,
+                                                  marginBottom: 0,
+                                                  color: '#475569',
+                                                  maxHeight: 48,
+                                                  overflow: 'hidden',
+                                                  textOverflow: 'ellipsis',
+                                                  fontSize: 13,
+                                                  display: '-webkit-box',
+                                                  WebkitLineClamp: 3,
+                                                  WebkitBoxOrient: 'vertical'
+                                              }}
+                                          >
+                                              {voteTop?.vote?.description || 'Không có mô tả'}
+                                          </p>
+                                      </Tooltip>
 
                                       <div style={{ marginTop: 10, display: 'flex', gap: 8, alignItems: 'center' }}>
                                           <span style={{ fontSize: 12, color: '#6b7280' }}>Số lựa chọn: <strong style={{ color: '#374151' }}>{voteTop?.totalTransactions ?? 0}</strong></span>
